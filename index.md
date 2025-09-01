@@ -66,9 +66,9 @@ Students should:
 - __17 Dec '24__: Semantics of hybrid programs in Lince; random simulations in Lince [9-lince.pdf](slides/9-lince.pdf)
 -->
 
- <!--
+<!--
 - __29 Sep 24__: XYZ ([2-xyz.pdf - pages 13-36](slides/2-xyz.pdf)).
- -->
+-->
 
 
 # Literature and Material
@@ -78,7 +78,8 @@ Students should:
 1. [Introduction to the course](slides/1-intro.pdf)
 2. [Transition systems and CCS](slides/2-behaviour.pdf)
 
-<!-- 3. [mCRL2 tool](slides/3-mcrl2.pdf)
+<!--
+3. [mCRL2 tool](slides/3-mcrl2.pdf)
 4. [Modal logic](slides/4-modal-logic.pdf)
 5. [Timed automata: modelling](slides/5-TA-modelling.pdf)
 6. [Timed automata: verifying](slides/6-TA-verification.pdf)
