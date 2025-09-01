@@ -1,0 +1,539 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{etex} % fixes new-dimension error
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx,amsmath}
+\usepackage{stmaryrd} % cf. interleave
+\usepackage{booktabs}
+\usepackage{amscd}
+\usepackage{multicol}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{alltt}
+\usepackage{proof}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\usepackage[new]{old-arrows}
+\usepackage[all]{xy}
+\usepackage{pgfplots}
+\usepackage{textcomp}
+
+\input{macros/macros}
+%-------------- template --------------------------------------------------
+\input{macros/beamerconf}
+%----------------------------------------------------------------------------
+
+%------ using pstricks (rnode etc) ------------------------------------------
+% \usepackage{pstricks,pst-node,pst-text,pst-3d}
+
+% % context
+% \AtBeginSection[]
+% {
+%     \begin{frame}
+%         \frametitle{Table of Contents}
+%         \tableofcontents[currentsection]
+%     \end{frame}
+% }
+% \author[Renato Neves]{Renato Neves}
+% % logos of institutions
+% \titlegraphic{
+%   \begin{textblock*}{5cm}(6.7cm,7.45cm)
+%      \includegraphics[scale=0.06]{images/uminho.png}\hspace*{.85cm}~%
+%   \end{textblock*}
+%   \begin{textblock*}{5cm}(9.4cm,7.45cm)
+%     \includegraphics[scale=0.50]{images/haslab.pdf}
+%   \end{textblock*}
+% }
+% % No date
+% \date{}
+
+
+\begin{document}
+
+
+% \title{
+%   Time-critical reactive systems \\ (Verification )  }
+
+% \frame[plain]{\titlepage}
+
+\setLecture{6}{Probabilities: Markov chains and statistical model checking}
+
+\frame[plain]{\titlepage}
+
+\section*{Where we are}
+
+\begin{slide}{Syllabus}
+  \frsplitt{
+    \begin{itemize}
+      \item Introduction to model-checking
+      \item CCS: a simple language for concurrency
+      \begin{itemize}
+        \item Syntax
+        \item Semantics
+        \item Equivalence
+        \item {mCRL2}: modelling
+      \end{itemize}
+      \item Dynamic logic
+      \begin{itemize}
+        \item Syntax
+        \item Semantics
+        \item Relation with equivalence
+        \item {mCRL2}: verification
+      \end{itemize}
+    \end{itemize}
+  }{
+    \begin{itemize}
+      \item  {Timed Automata}
+      \begin{itemize}
+        \item Syntax
+        \item Semantics (composition, Zeno)
+        \item Equivalence
+        \item {UPPAAL}: modelling
+      \end{itemize}
+      \item Temporal logics (LTL/CTL)
+      \begin{itemize}
+        \item Syntax
+        \item Semantics
+        \item {UPPAAL}: verification
+      \end{itemize}
+      \alert{
+      \item Probabilistic and stochastic systems
+      \begin{itemize}
+        \item Going probabilistic
+        \item \structure{UPPAAL}: monte-carlo
+      \end{itemize}
+      }
+    \end{itemize}
+  }
+\end{slide}
+
+\section{Going probabilistic}
+
+%----------------------------------------------------------------------------------
+\begin{frame}[t]\frametitle{Motivation}
+  \begin{block}{Systems can get very complex}
+    \begin{itemize}
+      \item E.g., 5 components, 3 possible traces each
+      \item No communication (pure interleaving)
+      \item Many permutations
+      \pause
+      \item More components, more traces -- untreatable
+      \\[5mm]
+      \pause
+      \item Verifying deadlock freedom (and others) requires traversing all states
+      \item \structure{Approximation}:
+      \begin{itemize}
+        \item traverse only part of the states
+        \item give more \structure{priority} to some actions
+        \item return (statistically) likelihood of a given property
+      \end{itemize}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}[t]\frametitle{Recall: A taxonomy of transition systems}
+  \begin{itemize}
+    \item $\alpha: S \to \Act \times S$ \alert{Moore machine}
+    \item $\alpha: S \to \mathtt{Bool} \times S^{\Act}$ \alert{deterministic automata}
+    \item $\alpha: S \to \mathtt{Bool} \times \tikzmark{a1} \Pow(S)^{\Act} \tikzmark{a2}$ \alert{non-deterministic automata (reactive)}
+    \\~
+    \item $\alpha : S \to \Pow( N \times S )$ \alert{non deterministic LTS (generative)}
+    \item $\alpha : S \to (S + 1)^N$ \alert{partial deterministic LTS} % (reactive)}
+    \item $\alpha : S \to \Pow(S)$ \alert{unlabelled TS}
+    % \item $\alpha : S \to N \times S + 1$ \alert{partial LTS (generative)}
+    % \item $\alpha : S \to P(S)^N$ \alert{non deterministic LTS (reactive)}
+    \\~
+    \item $\alpha: S \to \tikzmark{b1} \Dist(S) \tikzmark{b2}$ \alert{Markov chain}
+
+  \end{itemize}  
+
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Bringing probabilities to transition systems}
+  
+  \begin{alertblock}{Markov chains}
+    $$\alpha : S \to \Dist(S)$$
+    where $D(S)$ is the set of all \alert{discrete probability distributions} on set $S$
+
+    A Markov chain goes from a state $s$ to a state $s'$ with probability $p$ if
+    $$\alpha(s) = \mu\text{~~~with~~~} \mu(s') = p > 0$$
+  \end{alertblock}
+
+  % \begin{block}{}
+  %   \begin{itemize}
+  %     \item $\mu: \Dist(S)$
+  %     \item $0\leq \mu(s)\leq 1$
+  %     \item $\sum_{s\in S} \mu(s) = 1$
+  %     \item 
+  %   \end{itemize}
+  % \end{block}
+
+% Notation
+% s->mu  and s-p->s' -- squigly
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Recall discrete distributions}
+
+  \begin{block}{Recall}
+  $\mu: S\to [0,1]$ is a \alert{discrete probability distribution} if
+  \begin{itemize}
+  \item $\{s \in S ~|~ \mu(s) >0\}$, is finite (called the \structure{support} of $\mu$), and
+  \item $\sum_{s\in S} \mu(s) = 1$
+  \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Examples}
+  \begin{itemize}
+        \item \alert{Dirac distribution}: $\mu^1_s = \{s \to 1\}$
+        \item \alert{Product distribution}: $(\mu_1 \times\mu_2)\pair{s,t} = \mu_1(s) \times \mu 2(t)$
+  \end{itemize}    
+  \end{exampleblock}
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Example}
+  \centering
+
+    \wrap{\begin{tikzpicture}[aut]
+      \node[st,initial above,final]  (s_0) {$A_0$};
+      \node[st] (s_1) [above right of=s_0] {$A_1$};
+      \node[st] (s_2) [below right of=s_0] {$A_2$};
+      \path[->]
+        (s_0) edge  node {0.4}  (s_1)
+        (s_0) edge  node {0.4}  (s_2)
+        (s_1) edge  node {0.7}  (s_2)
+        (s_0) edge[loop left] node {0.2}  ()
+        (s_1) edge[loop right] node {0.3}  (s_1)
+        (s_2) edge[loop right] node {1}  (s_1);
+    \end{tikzpicture}}
+\end{frame}
+
+\begin{frame}[t]\frametitle{Reactive PTS}
+  \centering
+  {\Large \alert{$\alpha: S \to (\Dist(S) + 1)^N$}}
+
+  \bigskip
+
+  \doExercise{Formalise the systems below as functions}{
+  \centering
+  \wrap{\begin{tikzpicture}[aut]
+    \node[st,initial above,final]  (s_0) {$A_0$};
+    \node[st] (s_1) [above right of=s_0] {$A_1$};
+    \node[st] (s_2) [below right of=s_0] {$A_2$};
+    \path[->]
+      (s_0) edge  node {0.4}  (s_1)
+      (s_0) edge  node {0.4}  (s_2)
+      (s_1) edge  node {0.7}  (s_2)
+      (s_0) edge[loop left] node {0.2}  ()
+      (s_1) edge[loop right] node {0.3}  (s_1)
+      (s_2) edge[loop right] node {1}  (s_1);
+  \end{tikzpicture}}
+  ~~~~~~~~~~~
+    \wrap{\begin{tikzpicture}[aut]
+    \node[st,initial above,final]  (s_0) {$A_0$};
+    \node[st] (s_1) [above right of=s_0] {$A_1$};
+    \node[st] (s_2) [below right of=s_0] {$A_2$};
+    \path[->]
+      (s_0) edge  node {a[0.6]}  (s_1)
+      (s_0) edge  node {b[1]}  (s_2)
+      (s_1) edge  node {b[0.7]}  (s_2)
+      (s_0) edge[loop left] node {a[0.4]}  ()
+      (s_1) edge[loop right] node {b[0.3]}  (s_1);
+      % (s_2) edge[loop right] node {1}  (s_1);
+  \end{tikzpicture}}
+
+  }
+  
+  \begin{block}{}
+    Notions of bisimulation arise naturally.
+  \end{block}
+\end{frame}
+
+\begin{frame}[t]\frametitle{Generative PTS}
+  \centering
+  {\Large \structure{$\alpha: S \to \Dist((S\times N) + 1)$}}
+
+  \bigskip
+
+  \splittwo{0.48}{0.50}{
+  \begin{alertblock}{Before (reactive)}\centering
+    \wrap{\begin{tikzpicture}[aut]
+    \node[st,initial above,final]  (s_0) {$A_0$};
+    \node[st] (s_1) [above right of=s_0] {$A_1$};
+    \node[st] (s_2) [below right of=s_0] {$A_2$};
+    \path[->]
+      (s_0) edge  node {a[0.6]}  (s_1)
+      (s_0) edge  node {b[1]}  (s_2)
+      (s_1) edge  node {b[0.7]}  (s_2)
+      (s_0) edge[loop left] node {a[0.4]}  ()
+      (s_1) edge[loop right] node {b[0.3]}  (s_1);
+      % (s_2) edge[loop right] node {1}  (s_1);
+  \end{tikzpicture}}
+
+  \end{alertblock}
+  }{
+  \doExercise{Now (generative) -- formalise it}{\centering
+    \wrap{\begin{tikzpicture}[aut]
+    \node[st,initial above,final]  (s_0) {$A_0$};
+    \node[st] (s_1) [above right of=s_0] {$A_1$};
+    \node[st] (s_2) [below right of=s_0] {$A_2$};
+    \path[->]
+      (s_0) edge  node {\alert{a[0.4]}}  (s_1)
+      (s_0) edge  node {\alert{b[0.2]}}  (s_2)
+      (s_1) edge  node {\structure{b[0.3]}}  (s_2)
+      (s_0) edge[loop left] node {\alert{a[0.4]}}  ()
+      (s_1) edge[loop right] node {\structure{b[0.3]}}  (s_1);
+      % (s_2) edge[loop right] node {1}  (s_1);
+  \end{tikzpicture}}
+
+  }
+  }
+
+\end{frame}
+
+
+
+
+\section{Probabilities in Uppaal}
+
+\begin{frame}[t]\frametitle{Stochastic Timed Automata -- examples}
+  \centering    
+  \wrap{\uppbox[60mm]{A1}{images/A1.pdf}}~~~~~~~
+  \wrap{\uppbox[70mm]{A2}{images/A2.pdf}}\\[1mm]
+  \wrap{\uppbox[50mm]{A3}{images/A3.pdf}}
+\end{frame}
+
+\begin{slide}{Stochastic Timed automata Definition}
+\small
+
+\vspace*{-1mm}
+\begin{equation*}
+\mathbf{\pair{L, L_0, Act, C, Tr, Inv}}
+\end{equation*}
+\vspace*{-1mm}
+where
+\vspace*{-1mm}
+\begin{itemize}
+\item $L$ is a set of \structure{locations}, and $L_0 \subseteq L$ the set of \structure{initial} locations
+\item $Act$ is a set of \structure{actions} and $C$ a set of \structure{clocks}
+\item $Tr \subseteq L \times \cc{C} \times Act \times \pow{(C)} \times \alert{\N} \times L$ is the \structure{transition relation}
+\vspace*{-1mm}
+\begin{equation*}
+\ell_1\; \trans{g,a,U,\alert{w}}\;  \ell_2
+\end{equation*}
+\vspace*{-1mm}
+denotes a transition from location $\ell_1$ to $\ell_2$, \structure{labelled} by $a$, enabled if \structure{guard} $g$
+is valid, which, when performed, \structure{resets} the set $U$ of \structure{clocks}, \alert{with a probability given by the weight~$w$}
+\item $\fdec{Inv}{L}{\cc{C}\alert{+ \mathbb{Q}}}$ is the assignment of \structure{invariants} \alert{or rates (of an exponential distribution)} to locations  
+\end{itemize}
+\vspace*{-1mm}
+where $\cc{C}$ denotes the  set of clock constraints over a set $C$ of clock variables
+\end{slide}
+
+\begin{frame}[t]\frametitle{Again A1,A2,A3: Timed PTS}
+  \centering
+  \splittwo{0.4}{0.58}{
+    \centering
+    \wrap{\uppbox[35mm]{A1}{images/A1.pdf}}\\
+    \wrap{\uppbox[42mm]{A2}{images/A2.pdf}}\\
+    \wrap{\uppbox[30mm]{A3}{images/A3.pdf}}\\
+    % \wrap{\uppbox[60mm]{A3's histogram}{images/A3-hist.pdf}}
+
+  }{
+    \begin{itemize}
+      \item Probability of $\pair{A1_0,\overline{0}} \trans{0.5} \pair{A1_0,\overline{0.5}}$?
+      % \pause
+      \item Probability of $\pair{A2_0,\overline{0}} \trans{0.5} \pair{A2_0,\overline{0.5}}$?
+      \pause
+      \item Probability of $\pair{A3_0,\overline{0}} \trans{0.5} \pair{A3_0,\overline{0.5}}$?
+      \pause
+      \item Probability of reaching $A1_1$?
+      \item Probability of reaching $A2_1$?
+      \pause
+      \item Probability of reaching $A3_{END}$ in less than 4.3?
+      \\ = ...
+    \end{itemize}
+  }
+\end{frame}
+
+
+
+
+\begin{frame}[t]\frametitle{A1: When does it end?}
+  \centering
+  \splittwo{0.4}{0.58}{
+    \wrap{\uppbox[60mm]{A1}{images/A1.pdf}}\\
+    \wrap{\uppbox[60mm]{A1's histogram}{images/A1-hist.pdf}}
+  }{
+    \begin{itemize}
+      \item Run 102000 times
+      \item Histogram: how many times it took [9..9.1] seconds?
+      \item ...
+    \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]\frametitle{A2: When does it end?}
+  \centering
+  \splittwo{0.4}{0.58}{
+    \wrap{\uppbox[50mm]{A2}{images/A2.pdf}}\\
+    \wrap{\uppbox[50mm]{A2's histogram}{images/A2-hist.pdf}}
+  }{
+    \begin{itemize}
+      \item Run 100000 times
+      \item Histogram: how many times it took [9..9.1] seconds?
+      \item ...
+    \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}[t]\frametitle{A3: When does it end?}
+  \centering
+  \splittwo{0.4}{0.58}{
+    \centering
+    \wrap{\uppbox[30mm]{A3}{images/A3.pdf}}\\
+    \wrap{\uppbox[60mm]{A3's histogram}{images/A3-hist.pdf}}
+
+  }{
+    \begin{itemize}
+      \item Run 300000 times
+      \item Histogram: how many times it took [9..9.1] seconds?
+      \item ...
+    \end{itemize}
+  }
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Generative Timed PTS}
+  \centering
+  {\large \alert{$\alpha: S \to \Dist_{disc}((S\times N) + 1)$}}\\
+  {\Large \structure{$\alpha: S \to \Dist_{cont}((S\times (N+\R_0^{+}) + 1))$}}
+
+
+  \bigskip
+
+  \splittwo{0.46}{0.52}{
+  \only<1>{\begin{alertblock}{Before (PTS)}\centering
+    \wrap{\begin{tikzpicture}[aut]
+    \node[st,initial above,final]  (s_0) {$A_0$};
+    \node[st] (s_1) [above right of=s_0] {$A_1$};
+    \node[st] (s_2) [below right of=s_0] {$A_2$};
+    \path[->]
+      (s_0) edge  node {{a[0.4]}}  (s_1)
+      (s_0) edge  node {{b[0.2]}}  (s_2)
+      (s_1) edge  node {{b[0.3]}}  (s_2)
+      (s_0) edge[loop left] node {{a[0.4]}}  ()
+      (s_1) edge[loop right] node {{b[0.3]}}  (s_1);
+      % (s_2) edge[loop right] node {1}  (s_1);
+  \end{tikzpicture}}
+  \end{alertblock}}%
+  \only<2->{
+    \begin{block}{Notes}
+    \begin{itemize}
+      \item Continuous time: continuous distribution
+      \item Probabilities both at continuous \alert{delays} and discrete \structure{transitions}.
+    \end{itemize}
+    \end{block}
+  }
+  }{
+  \doExercise{Now (Timed PTS) -- formalise it}{\centering
+    \wrap{\begin{tikzpicture}[aut]
+    \node[st,initial above,final]  (s_0) {$A_0$};
+    \node[st] (s_1) [above right of=s_0] {$A_1$};
+    \node[st] (s_2) [below right of=s_0] {$A_2$};
+    \path[->]
+      (s_0) edge  node {\alert{5[0.4]}}  (s_1)
+      (s_0) edge  node {\alert{b[0.2]}}  (s_2)
+      (s_1) edge  node {\structure{b[0.3]}}  (s_2)
+      (s_0) edge[loop left] node {\alert{a[0.4]}}  ()
+      (s_1) edge[loop right] node {\structure{10[0.3]}}  (s_1);
+      % (s_2) edge[loop right] node {1}  (s_1);
+  \end{tikzpicture}}
+  
+  }
+  \exerciseBack
+  }
+
+\end{frame}
+\exerciseAdd
+
+
+
+
+
+\section{Probabilistic queries in Uppaal}
+
+\begin{frame}[t]\frametitle{Probabilistic queries}
+    
+  \begin{itemize}
+    \item \alert{\texttt{Pr[c<=10; 100]([] safe)}} -- 
+    runs 100 stochastic simulations and estimates the probability of \texttt{safe} remaining true within 10 cost units, based on 100 runs.
+
+    \item \structure{\texttt{Pr[<=10](<> good)}} --
+    runs a number of stochastic simulations and estimates the probability of \texttt{good} eventually becoming true within 10 time units. The number of runs is decided based on the probability interval precision (±$\varepsilon$) and confidence level (level of significance $\alpha$).
+
+    % runs 100 stochastic simulations and estimates the probability of \texttt{safe} remaining true within 10 cost units.
+    % \\~
+    \item \structure{\texttt{Pr[<=10](<> good) >= 0.5}} --
+    checks if the probability of reaching good within 10 time units is greater than 50\%
+    (less runs than calculating the probability, using ``Walds's algorithm'')
+    \item \structure{\texttt{E[<=10; 100](max: cost)}}
+    runs 100 stochastic simulations and estimates the maximal value of cost expression over 10 time units of stochastic simulation.
+  \end{itemize}
+
+
+  {\footnotesize More at \url{https://docs.uppaal.org/language-reference/query-syntax/statistical_queries/}}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Running a single simulation}
+    
+  \begin{itemize}
+    \item \alert{\texttt{simulate[<=10] \{ x, y \}}}
+    creates one stochastic simulation run of up to 10 time units in length and plot the values of \texttt{x} and \texttt{y} expressions over time (after checking, right-click the query and choose a plot).
+    \item Variations: \structure{\texttt{[c<=10] / [\#<=10]}} -- based on clock $c$ or based on the number of transitions.
+  \end{itemize}
+
+
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Replicate the histograms}
+  \centering
+  \splittwo{0.4}{0.58}{
+    \wrap{\uppbox[50mm]{A2}{images/A2.pdf}}\\
+    \wrap{\uppbox[50mm]{A2's histogram}{images/A2-hist.pdf}}
+  }{
+    \doSimpleExercise{Replicate the visualisation}
+    \doSimpleExercise{Replicate the visualisation also for A1 and A3}
+  }
+\end{frame}
+
+\begin{slide}{Exercise: create a stochastic simulation of the lamp}
+  \splittwo{0.4}{0.6}{
+  \centering
+  \uppbox[4.5cm]{Lamp}{./images/Lamp}
+  \\
+  \doSimpleExercise{Adapt the model to make it stochastic}
+  }{
+  % \vspace*{-2mm}
+  \doExercise{Adapt requirements to make them probabilistic}{
+    \vspace*{-8mm}
+    % \begin{multicols}{2}
+    \begin{enumerate}
+      \item The lamp can become bright;
+      \item The lamp will eventually become bright;
+      \item The lamp can never be on for more than 3600s;
+      \item It is possible to never turn on the lamp;
+      \item Whenever the light is bright, the clock $y$ is non-zero;
+      \item Whenever the light is bright, it will eventually become off.
+    \end{enumerate}
+    % \end{multicols}
+    }
+  }
+\end{slide}
+
+\end{document}

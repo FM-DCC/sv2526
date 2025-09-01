@@ -1,0 +1,521 @@
+\documentclass[aspectratio=169]{beamer}
+
+\input{macros/macros}
+%-------------- template --------------------------------------------------
+\input{macros/beamerconf}
+
+%------ using pstricks (rnode etc) ------------------------------------------
+% \usepackage{pstricks,pst-node,pst-text,pst-3d}
+
+
+% % context
+% \AtBeginSection[]
+% {
+%     \begin{frame}
+%         \frametitle{Table of Contents}
+%         \tableofcontents[currentsection]
+%     \end{frame}
+% }
+% \author[Renato Neves]{Renato Neves}
+% % logos of institutions
+% \titlegraphic{
+%   \begin{textblock*}{5cm}(6.7cm,7.45cm)
+%      \includegraphics[scale=0.06]{images/uminho.png}\hspace*{.85cm}~%
+%   \end{textblock*}
+%   \begin{textblock*}{5cm}(9.4cm,7.45cm)
+%     \includegraphics[scale=0.50]{images/haslab.pdf}
+%   \end{textblock*}
+% }
+% % No date
+% \date{}
+
+\begin{document}
+
+
+\setLecture{3}{Introduction to mCRL2}
+
+\frame[plain]{\titlepage}
+
+
+%-------------------------------------------------------------------------------
+\begin{slide}{mCRL2}
+\small
+\myblock{\url{http://mcrl2.org}}
+  
+\begin{itemize}
+  \item {Formal \blue{specification language} with an associated toolset}
+  
+  \item {Used for \blue{modelling}, \blue{validating} and \blue{verifying} concurrent systems and protocols}
+
+  \item Tool suggestion: use \alert{\texttt{mcrl2ide}} (not \texttt{mcrl2-gui})
+\end{itemize}
+  
+\end{slide}
+
+
+\begin{slide}{Recall CCS semantics}
+\small 
+\centering
+\newcommand{\msep}{~~~~~~}
+
+\typerule{act}{\shrk}{\alpha.P \trans\alpha P}
+\msep
+\typerule{sum-1}{P_1 \trans\alpha P'_1}{P_1 + P_2 \trans\alpha P'_1} %$\transp{j\in I}$
+\msep
+\typerule{sum-2}{P_2 \trans\alpha P'_2}{P_1 + P_2 \trans\alpha P'_2} %$\transp{j\in I}$
+\\[2mm]
+\typerule{res}{P\trans\alpha P'}{\crt P L\trans\alpha \crt{P'}L}~$\transp{\alpha%,\ainv{\alpha}
+                                                                  \notin L}$
+\msep
+\typerule{rel}{P\trans\alpha P'}{\crn P f\trans{f(\alpha)} \crn{P'} f}
+\\[2mm]
+\typerule{com1}{P\trans\alpha P'}{P|Q\trans\alpha P'|Q}
+\msep
+\typerule{com2}{Q\trans\alpha Q'}{P|Q\trans\alpha P|Q'}
+\msep
+\typerule{com3}{P\trans a P' \quad Q\trans{\ainv{a}} Q'}{P|Q\trans{\tau_a} P'|Q'}
+\end{slide}
+
+
+
+\section{Processes in mCRL2}
+
+%-------------------------------------------------------------------------------
+\begin{frame}[fragile]{CCS in mCRL2}
+  
+\begin{block}{Syntax (by example)}
+\begin{align*}
+  a.\cnil &\to \mcode{a}
+  \\
+  a.P &\to \mcode{a.P}
+  \\
+  P_1 + P_2 &\to \mcode{P1 + P2}
+  \\
+  P\backslash L &\to \mcode{block(L,P)}
+ \\
+ \crn{P}{f} &\to \mcode{rename(f,P)}
+  \\
+  a.P|\ainv a.Q &\to \mcode{comm(\{ $\textcolor{blue}{\tt a1|a2}$->a\}, }\mcode{a1.P}\mcode{||a2.Q)}
+  \\
+  a.P|\ainv a.Q \backslash \{a\}  &\to \mcode{block(\{a1,a2\},}\mcode{comm(\{$\textcolor{blue}{\tt a1|a2}$->a\}, }
+  \\&~~~~~
+  \mcode{a1.P}\mcode{||a2.Q))}
+\end{align*}
+\end{block}
+\end{frame}
+
+
+
+%-------------------------------------------------------------------------------
+\begin{frame}[fragile]{CCS in mCRL2 hiding communication}
+  
+\begin{block}{Syntax (by example)}
+\begin{align*}
+  a.\cnil &\to \mcode{a}
+  \\
+  a.P &\to \mcode{a.P}
+  \\
+  P_1 + P_2 &\to \mcode{P1 + P2}
+  \\
+  P\backslash L &\to \mcode{block(L,P)}
+ \\
+ \crn{P}{f} &\to \mcode{rename(f,P)}
+  \\
+  a.P|\ainv a.Q &\to \texttt{\structure{hide(\{a\}, }}
+    \mcode{comm(\{ $\textcolor{blue}{\tt a1|a2}$->a\}, }\mcode{a1.P}\mcode{||a2.Q))}
+  \\
+  a.P|\ainv a.Q \backslash \{a\}  &\to \texttt{\structure{hide(\{a\}, }}
+    \mcode{block(\{a1,a2\},}\mcode{comm(\{$\textcolor{blue}{\tt a1|a2}$->a\}, }
+  \\&~~~~~
+  \mcode{a1.P}\mcode{||a2.Q)))}
+\end{align*}
+\end{block}
+\end{frame}
+
+%-------------------------------------------------------------------------------
+\begin{frame}[fragile]{mCRL2}
+\small
+
+\vspace*{-8mm}
+\begin{align*}
+    % CM &= \mathsf{coin.coffee}.CM
+    % \\
+    % CS &= \mathsf{pub.(coin.coffee.CS + coin.tea.CS)}
+    CM &= \mathsf{coin.\ainv{coffee}}.CM
+    \\
+    CS &= \mathsf{pub.\ainv{coin}.coffee}.CS
+    \\
+    SmUni &= \crt{(CM|CS)}{\mathsf{\set{coin,coffee}}}
+\end{align*}
+
+\vspace*{-4mm}
+\begin{lstlisting}
+act
+  coin, coin', coinCom,
+  coffee, coffee', coffeeCom, pub;
+proc
+  CM = coin.coffee'.CM;
+  CS = pub.coin'.coffee.CS;
+  SmUni = block({coffee,coffee',coin,coin'},
+          comm({coffee|coffee' -> coffeeCom,
+                coin|coin'     -> coinCom},
+          CM||CS ));
+init
+  SmUni;
+\end{lstlisting}
+%  \end{block}
+\end{frame}
+
+
+
+
+\begin{slide}{mCRL2 IDE}
+  \centering
+  \vspace*{-4mm}
+  \begin{columns}
+  \col[0.9]{    
+  \includegraphics[width=1\textwidth]{images/mcrl2-ide.png}
+
+  \begin{tikzpicture}[overlay]
+    \path[draw=red!90!black,dotted,line width=2pt,
+          xshift=45mm,yshift=76.0mm]
+      rectangle (0.9,0.9);
+    \path[draw=red!90!black,dotted,line width=2pt,
+          xshift=55.5mm,yshift=76.0mm]
+      rectangle (0.9,0.9);
+    \path[draw=red!90!black,dotted,line width=2pt,
+          xshift=67.4mm,yshift=76.0mm]
+      rectangle (0.9,0.9);
+    \path[draw=red!90!black,dotted,line width=2pt,
+          xshift=77.9mm,yshift=76.0mm] % 14.9
+      rectangle (0.9,0.9);
+  \end{tikzpicture}
+  }
+  \col[0.2]{\centering
+  \textcolor{red!75!black}{\wrap{
+    Parse \\[4mm] Simulate \\[4mm] Visualize \\[4mm] Minimize~\&\\[0mm]Visualize
+  }~~~~~~~~}
+  }
+  \end{columns}
+
+\end{slide}
+
+% \begin{slide}{mCRL2 IDE}
+%   \centering
+%   \vspace*{-4mm}
+%   \includegraphics[width=0.9\textwidth]{images/mcrl2-ide.png}
+
+%   \begin{tikzpicture}[overlay]
+%     \path[draw=red!90!black,dotted,line width=2pt,
+%           xshift=-18mm,yshift=78.0mm]
+%       rectangle (0.9,0.9);
+%     \path[draw=red!90!black,dotted,line width=2pt,
+%           xshift=-7.5mm,yshift=78.0mm]
+%       rectangle (0.9,0.9);
+%     \path[draw=red!90!black,dotted,line width=2pt,
+%           xshift=4.4mm,yshift=78.0mm]
+%       rectangle (0.9,0.9);
+%     \path[draw=red!90!black,dotted,line width=2pt,
+%           xshift=14.9mm,yshift=78.0mm]
+%       rectangle (0.9,0.9);
+%   \end{tikzpicture}
+%   \\[-20mm]
+%   \textcolor{red!75!black}{\begin{align*}
+%     Parse && Simulate && Visualize && Minimize~\&~Visualize
+%   \end{align*}}
+% \end{slide}
+
+
+
+\begin{frame}[fragile]{Specifications \texttt{*.mcrl2}}
+
+\begin{columns}
+  \column{0.48\textwidth}
+  \begin{lstlisting}
+act
+  action1, action2, ...;
+  action3, action4 : Type;
+
+proc
+  P1 = ...;
+  P2(x: Bool) = ...;
+      % Process expression
+
+init
+  SmUni;
+\end{lstlisting}
+  \column{0.48\textwidth}
+  \begin{lstlisting}
+sort List = struct
+       empty | cons(A,List);
+
+map sum2: Int # Int -> Int;
+
+var x, y: Int;
+
+eqn 
+  sum2(x,y) = (x+y) * (x+y);
+  % Data patterns &  expressions
+
+\end{lstlisting}
+\end{columns}
+
+\myblock{\url{https://mcrl2.org/web/user_manual/language_reference/index.html}}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Process Expressions}
+  \myblock{$P = \textit{\structure{PE}}$ ;}
+
+  % ~\\[-15mm]
+
+  \newcommand{\is}[1]{&~~\textit{\alert{#1}}}
+  
+  \frsplit{
+  \begin{align*}
+  \mcode{a} \is{Action}
+  \\
+  \mcode{a$\textcolor{red!75!black}{|}$b} \is{Multi-action}
+  \\
+  \mcode{P} \is{Process}
+  \\
+  \mcode{delta} \is{Deadlock}
+  \\
+  \mcode{a($\textit{DataExpr}$)} \is{Parameterized Act.}
+  \\
+  \mcode{P($\textit{DataExpr}$)} \is{Parameterized Proc.}
+  \\
+  \mcode{a.PE} \is{Sequencing}
+  \\
+  \mcode{PE1$\,$+$\,$PE2} \is{Choice}
+  \\
+  \mcode{PE1||PE2} \is{Parallel}
+  \end{align*}}{
+  \begin{align*}
+  \mcode{block(\{a,b\},PE)} \is{Block}
+  \\
+  \mcode{allow(\{a,b\},PE)} \is{Allow}
+  \\
+  \mcode{rename(\{a->b\},PE)} \is{Rename}
+  \\
+  \mcode{comm(\{a|b->c\},PE)} \is{Communicate}
+  \\
+  \mcode{sum m: Nat . PE} \is{Gen. Choice}
+  \end{align*}}
+
+  % ~\\[-20mm]
+
+\end{frame}
+
+
+
+
+\begin{frame}[fragile]{Data Expressions}
+  \newcommand{\is}[1]{&~~\textit{\alert{#1}}}
+  \renewcommand{\exp}{\structure{exp}}
+
+  \myblock{$P(\exp)$}
+
+  % ~\\[-15mm]
+
+
+  \frsplit{
+  \begin{align*}
+  \mcode{true} \is{Boolean}
+  \\
+  \mcode{42} \is{Pos, Nat, Int, Real}\!\!\!\!\!\!\!\!\!\!\!\!\!\!\!
+  \\
+  \mcode{!$\exp$} \is{Not}
+  \\
+  \mcode{$\exp$ && $\,\exp$} \is{And}
+  \\
+  \mcode{$\exp\,$||$\,\exp$} \is{Or}
+  \\
+  \mcode{$\exp$ => $\,\exp$} \is{Implies}
+  \\
+  \mcode{forall n:Nat . $\,\exp$} \is{For all}
+  \\
+  \mcode{exists n:Nat . $\,\exp$} \is{Exists}
+  \end{align*}}{
+  \begin{align*}
+  \mcode{$\exp$ + $\,\exp$} \is{Sum}
+  \\
+  \mcode{max($\exp$,$\exp$)} \is{And}
+  \\
+  \mcode{$\exp$ mod $\,\exp$} \is{Remainder of div.}
+  \\
+  \mcode{[$\exp$,$\exp$, ...]} \is{List}
+  \\
+  \mcode{\{$\exp$,$\exp$, ...\}} \is{Set}
+  \\
+  \mcode{\{$\exp$:2,$\exp$:1, ...\}} \is{Bag}
+  \\
+  \mcode{lambda n:Nat . $\,\exp$} \is{Function}
+    \end{align*}}
+
+  % ~\\[-20mm]
+
+\end{frame}
+
+
+%-------------------------------------------------------------------------------
+\begin{slide}{mCRL2 toolset overview}
+  \centering
+  
+  \includegraphics[width=0.75\textwidth]{images/mcrl2-toolset.png}
+
+  \begin{tikzpicture}[overlay]
+    \path[draw=red!90!black,dotted,line width=6pt,
+          xshift=-55mm,yshift=46mm]
+      rectangle (11,2.6);
+  \end{tikzpicture}
+  \\[-10mm]
+  \begin{block}{}\centering
+    % Tutorial: \url{https://dcc-fm.github.io/sv2425/exercises/adventurers/adventurers-tutorial-mcrl2.zip}
+    % //
+    Assignment 1: ~~ 
+  \mbox{\alert{\footnotesize\url{https://fm-dcc.github.io/sv2425/exercises/mcrl2-assignment.zip}}}
+  \end{block}
+%
+  % \\[-4mm]
+  % -- mCRL2 tutorial: \alert{Modelling} part --
+  % \\
+  % \structure{\footnotesize\url{https://dcc-fm.github.io/sv2425/exercises/adventurers/adventurers-tutorial-mcrl2.zip}
+  %   % //
+  % }
+\end{slide}
+
+\begin{frame}[t]\frametitle{mCRL2 tutorial}
+  \centering\Large 
+  ~\\[15mm]
+  \begin{alertblock}{}
+  % \\
+  \structure{\url{https://dcc-fm.github.io/sv2425/exercises/adventurers/adventurers-tutorial-mcrl2.zip}}
+  \end{alertblock}
+\end{frame}
+
+\section{Logic and Verification}
+
+
+\begin{slide}{mCRL2 IDE}
+  \centering
+  \begin{columns}
+
+  \col[0.9]{  
+  \vspace*{-4mm}
+  \includegraphics[width=1\textwidth]{images/mcrl2-ide.png}
+
+  \begin{tikzpicture}[overlay]
+    % \path[draw=red!90!black,dotted,line width=2pt,
+    %       xshift=-16mm,yshift=67.5mm]
+    %   rectangle (0.8,0.8);
+    % \path[draw=red!90!black,dotted,line width=2pt,
+    %       xshift=-6.5mm,yshift=67.5mm]
+    %   rectangle (0.8,0.8);
+    \path[draw=red!90!black,dotted,line width=2pt,
+          xshift=90.7mm,yshift=76.0mm]
+      rectangle (0.8,0.8);
+    \path[draw=red!90!black,dotted,line width=2pt,
+          xshift=101mm,yshift=76.0mm] % 31.9
+      rectangle (0.8,0.8);
+  \end{tikzpicture}
+  }
+  \col[0.2]{
+  \textcolor{red!75!black}{\wrap{
+    Add\\[0mm]properties \\[9mm] Verify\\[0mm]properties
+  }}
+  }
+\end{columns}
+\end{slide}
+
+% \begin{slide}{mCRL2 IDE}
+%   \centering
+%   \includegraphics[width=1\textwidth]{images/mcrl2-ide.png}
+
+%   \begin{tikzpicture}[overlay]
+%     % \path[draw=red!90!black,dotted,line width=2pt,
+%     %       xshift=-16mm,yshift=67.5mm]
+%     %   rectangle (0.8,0.8);
+%     % \path[draw=red!90!black,dotted,line width=2pt,
+%     %       xshift=-6.5mm,yshift=67.5mm]
+%     %   rectangle (0.8,0.8);
+%     \path[draw=red!90!black,dotted,line width=2pt,
+%           xshift=22.4mm,yshift=67.5mm]
+%       rectangle (0.8,0.8);
+%     \path[draw=red!90!black,dotted,line width=2pt,
+%           xshift=31.9mm,yshift=67.5mm]
+%       rectangle (0.8,0.8);
+%   \end{tikzpicture}
+%   \\[-20mm]
+%   \textcolor{red!75!black}{\begin{align*}
+%     \text{Add properties} && \text{Verify properties}
+%   \end{align*}}
+% \end{slide}
+
+
+%-------------------------------------------------------------------------------
+\begin{slide}{mCRL2 - modal logic}
+\newcommand{\expr}{\mathit{mod}}
+\newcommand{\midd}{\,~|~\,}
+\renewcommand{\expr}{expr}
+\centering
+\begin{block}{Syntax (simplified)}
+\vspace*{-6mm}
+\begin{align*}
+  \phi =&~ \mcode{true} \midd \mcode{false} \midd
+          \mcode{forall x:T.}\phi \midd \mcode{exists x.:T}\phi \\|&~
+          \phi~OP~\phi \midd \mcode{!}\phi \midd
+          \mcode{[$\structure{\expr}$]}\phi \midd \mcode{<$\structure{\expr}$>}\phi \midd \ldots
+\\[3mm]
+\structure{\expr} =&~ \alert{\alpha} \midd \mcode{nil} \midd \expr\mcode{+}\expr \midd
+        \expr\mcode{.}\expr \midd \expr\mcode{*} \midd \expr\mcode{+}
+\\[1mm]
+\alert{\alpha} =&~ \mcode{a(d)} \midd \mcode{a|b|c} \midd
+          \mcode{true} \midd \mcode{false} 
+          \midd
+          \alpha~OP~\alpha \midd \mcode{!}\alpha
+          \\|&~
+          \mcode{forall x:T.}\alpha \midd \mcode{exists x:T.}\alpha 
+          \midd
+          \ldots
+\end{align*}
+\vspace*{-6mm}
+\end{block}
+%~\\[2mm]
+\vspace*{-2mm}
+where~~~ %$OP = \set{\mcode{&&},\mcode{||},\mcode{=>}}$ ~~and~~
+$T = \set{Bool, Nat, Int, \ldots}$
+~~~and~~~
+$OP = \{\mcode{=>},\mcode{\&\&},\mcode{||}\}$
+
+\vspace*{-2mm}
+\begin{exampleblock}{Example}
+``\code{[true*.a]<b>true}'' means: \emph{whenever an `\code{a}' appears after any number of steps, it must be immediately followed by `\code{b}'}. 
+\end{exampleblock}
+\end{slide}
+
+\setbeamertemplate{footline}{} 
+%-------------------------------------------------------------------------------
+\begin{slide}{mCRL2 toolset overview}
+  \centering
+  
+  % \vspace*{-2mm}
+  \includegraphics[width=0.75\textwidth]{images/mcrl2-toolset.png}
+  
+  \begin{tikzpicture}[overlay]
+    \path[draw=red!90!black,dotted,line width=6pt,
+          xshift=-55mm,yshift=10mm]
+      rectangle (11,3.5);
+  \end{tikzpicture}
+  \\[-10mm]
+  \begin{block}{}\centering
+    Assignment 1 (now everything): ~~
+  \mbox{\alert{\footnotesize\url{https://fm-dcc.github.io/sv2425/exercises/mcrl2-assignment.zip}}}
+
+  \end{block}
+\end{slide}
+
+
+\end{document}
+

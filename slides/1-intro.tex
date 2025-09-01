@@ -1,0 +1,362 @@
+\documentclass[aspectratio=169]{beamer}
+
+\input{macros/macros}
+%-------------- template --------------------------------------------------
+\input{macros/beamerconf}
+%----------------------------------------------------------------------------
+
+%------ using pstricks (rnode etc) ------------------------------------------
+% \usepackage{pstricks,pst-node,pst-text,pst-3d}
+
+% % context
+% \AtBeginSection[]
+% {
+%     \begin{frame}
+%         \frametitle{Table of Contents}
+%         \tableofcontents[currentsection]
+%     \end{frame}
+% }
+% \author[Renato Neves]{Renato Neves}
+% % logos of institutions
+% \titlegraphic{
+%   \begin{textblock*}{5cm}(6.7cm,7.45cm)
+%      \includegraphics[scale=0.06]{images/uminho.png}\hspace*{.85cm}~%
+%   \end{textblock*}
+%   \begin{textblock*}{5cm}(9.4cm,7.45cm)
+%     \includegraphics[scale=0.50]{images/haslab.pdf}
+%   \end{textblock*}
+% }
+% % No date
+% \date{}
+
+\begin{document}
+
+\setLecture{1}{System Verification: Introduction}
+\frame[plain]{\titlepage}
+
+
+% \title{Cyber-Physical Computation}
+
+% \frame[plain]{\titlepage}
+
+% \section{System Verification}
+
+
+\section{What are Formal Methods?}
+
+
+\begin{slide}{What are formal methods?}
+  \centering
+
+  \begin{minipage}{0.7\textwidth}
+  \Large
+  
+  \begin{block}{}~\\[-1mm]
+    \centering
+    Formal methods are \structure{techniques} to
+    \\
+    model \alert{complex systems} using
+    \\
+    \alert{rigorous mathematical models}
+
+  \end{block}
+  \end{minipage}
+  \\[7mm]
+
+  \begin{minipage}{0.32\textwidth}
+  \begin{alertblock}{Specification}~\\[-1mm]
+    Define part of the system using a modelling language
+  \end{alertblock}
+  \end{minipage}
+~~
+  \begin{minipage}{0.3\textwidth}
+  \begin{alertblock}{Verification}~\\[-1mm]
+    Prove properties.\\Show correctness.\\Find bugs.
+  \end{alertblock}
+  \end{minipage}
+~~
+  \begin{minipage}{0.28\textwidth}
+  \begin{exampleblock}{Implementation}~\\[-1mm]
+    Generate correct code.\\~\\~
+  \end{exampleblock}
+  \end{minipage}
+
+\end{slide}
+
+\begin{frame}
+  \huge\centering
+  All formal models are \alert{wrong}
+  \pause
+  \\[5mm]
+  ... but some of them are \structure{usefull}!
+\end{frame}
+
+
+% \begin{slide}{Many success cases}
+%   \huge\centering
+
+%   Cryptographic protocols
+%   \\[5mm]
+%   Distributed systems do not get stuck
+%   \\[5mm]
+%   Safety in railway systems
+%   \\[5mm]
+%   Type systems
+%   \\[5mm]
+%   \faded{\emph{[Tests: Validation (not Verification)]}}
+
+% \end{slide}
+
+
+\begin{frame}[t]\frametitle{Program verification vs. System verification}
+  
+  \frsplitt{
+    \begin{exampleblock}{Program verification}
+      \begin{itemize}
+        \item software (code)
+        \item + annotations (logic)
+        \item + some user interaction
+        \item = correctness proof
+      \end{itemize}
+    \end{exampleblock}
+    \pause
+  }{
+    \begin{alertblock}{SYSTEM verification}
+      \begin{itemize}
+        \item system specification (model)
+        \item + system requirements (logic)
+        \item + some user interaction
+        \item + fixing parameters/scenarios
+        \item = correctness proof
+      \end{itemize}
+    \end{alertblock}
+  }
+  \bigskip
+  In this course: we will focus on \alert{model-checking}
+
+
+\end{frame}
+
+
+\section{Contents of the module}
+
+\begin{slide}{Syllabus}
+  \frsplitt{
+    \begin{itemize}
+      \item Introduction to model-checking
+      \item CCS: a simple language for concurrency
+      \begin{itemize}
+        \item Syntax
+        \item Semantics
+        \item Equivalence
+        \item \alert{mCRL2}: modelling
+      \end{itemize}
+      \item Dynamic logic
+      \begin{itemize}
+        \item Syntax
+        \item Semantics
+        \item Relation with equivalence
+        \item \alert{mCRL2}: verification
+      \end{itemize}
+    \end{itemize}
+  }{
+    \begin{itemize}
+      \item  {Timed Automata}
+      \begin{itemize}
+        \item Syntax
+        \item Semantics (composition, Zeno)
+        \item Equivalence
+        \item \structure{UPPAAL}: modelling
+      \end{itemize}
+      \item Temporal logics (LTL/CTL)
+      \begin{itemize}
+        \item Syntax
+        \item Semantics
+        \item \structure{UPPAAL}: verification
+      \end{itemize}
+      \item Probabilistic and stochastic systems
+      \begin{itemize}
+        \item Going probabilistic
+        \item \structure{UPPAAL}: monte-carlo
+      \end{itemize}
+    \end{itemize}
+  }
+\end{slide}
+
+
+\section{Logistics}
+
+\begin{frame}{Useful information}
+  Relevant class material and announcements will be posted on the website periodically
+
+  \mycbox{\structure{\url{https://fm-dcc.github.io/sv2526}}}
+  
+
+  \alert{E-mail}
+    \begin{itemize}
+      \item \href{mailto:jose.proenca@fc.up.pt}{jose.proenca@fc.up.pt} 
+    \end{itemize}
+           
+
+  \alert{Office hours} (please send an email the day before if you wish to meet):
+  \begin{itemize}
+    \item \emph{José Proença:} Thursday morning
+  \end{itemize} 
+\end{frame}
+
+\begin{frame}{Assessment}
+  Assessment will consist of
+  \begin{itemize}
+  \item \structure{70\%} -- an individual \alert{test} at the end (\emph{época normal});
+  \item \structure{30\%} -- a \alert{group assignment} with 2 parts involving the use of the mCRL2 and the Uppaal model checkers; and %on modelling and analysis of real-timed systems via \texttt{Uppaal} (40\%)
+  \item \structure{100\%} -- Final (optional) exam during the extra period (\emph{época de recurso}).
+  \end{itemize}
+\end{frame}
+
+
+\section{What is model-checking?}
+
+
+\begin{frame}[t]\frametitle{What is model-checking?}
+
+  \mycbox{\Large Check \alert{Requirements} of a \structure{Model}}
+
+  \medskip
+
+  \mycbox{\Large using \textbf{\underline{Formal Methods}}}
+
+\end{frame}
+
+\begin{frame}[t]\frametitle{Example: coffee machine}
+    
+  \splittwo{0.49}{0.49}{
+    \includegraphicsframed[width=\textwidth]{images/coffeemachine.jpg}
+  }{\centering
+    \mycbox{\Large $\alert{\mathcal{M}},\structure{s} \models \phi$}
+       does the \alert{model}
+    \\ $\alert{\mathcal{M}}$
+    \\ in \structure{state}
+    \\ $\structure{s}$
+    \\ satisfies the \textbf{requirement}
+    \\ $\phi$
+  }
+\end{frame}
+
+\begin{frame}[t]\frametitle{Example: coffee machine - the MODEL}
+  \splittwo{0.25}{0.73}{
+    ~\\[15mm]
+    \includegraphics[width=\textwidth]{images/coffeemachine.jpg}
+  }{\centering
+    \includegraphicsframed[width=\textwidth]{images/coffeemachine-model.pdf}  
+    \\[8mm]
+    {\Large\bf \alert{Actions} \hfill \structure{States} \hfill Propositions}
+    \\[8mm]
+    Just building the model is often a large contribution
+  }
+\end{frame}
+
+\begin{frame}[t]\frametitle{Example: coffee machine - the REQUIREMENTS}
+  \splittwo{0.25}{0.73}{
+    ~\\[15mm]
+    \includegraphics[width=\textwidth]{images/coffeemachine.jpg}
+  }{\centering
+    \includegraphicsframed[width=\textwidth]{images/coffeemachine-model.pdf}  
+    \\[5mm]
+    \begin{block}{$\mathcal{M}, S2 \models \mi{coin}$}
+    means coin holds in state \emph{S2}     
+    \end{block}
+
+    \begin{block}{$\mathcal{M}, S1 \models \mi{[make~selection]~selection}$}
+    means selection holds in every state reachable with \emph{``make selection''} from \emph{S1}
+    \end{block}
+  }
+\end{frame}
+
+\begin{frame}[t]\frametitle{Actions vs. States}
+  % \splittwo{0.4}{0.6}{
+  % \begin{equation*}
+  %   \xymatrix{
+  %   & q_1  \ar[ld]_{a}  \ar[rd]^{a}\\
+  %   q_2 \ar[rr]^{c}  && q_3 \ar@(ur,dr)[]^{c}
+  %   }
+  % \end{equation*}
+  % }{
+  %   \begin{itemize}
+  %     \item  desired/forbidden sequences of actions
+  %     \item Process algebra to generate models
+  %     \item $\mathcal{M},2 \models [a]\mi{false}$
+  %   \end{itemize}
+  % }
+  \begin{block}{Focus on \alert{events}}
+  ~\\[-1mm]
+  \splittwo{0.2}{0.6}{
+    \begin{tikzpicture}[aut]
+      \node (q2) {$q_2$};
+      \node[xshift=30mm] (q3) {$q_3$};
+      \node[xshift=15mm,yshift=10mm,initial above] (q1){$q_1$};
+      \path[->]
+        (q1) edge  node[lbl,swap]{\alert{a}}  (q2) edge node[lbl]{\alert{a}} (q3)
+        (q2) edge node[lbl]{\alert{c}} (q3)
+        (q3) edge[loop right] node[lbl]{\alert{c}} ();
+    \end{tikzpicture}
+  }{
+    \begin{itemize}
+      \item  desired/forbidden sequences of actions
+      \item Process algebra to generate models
+      \item $\mathcal{M},q_2 \models [\alert{a}]\mi{false}$
+    \end{itemize}
+  }
+  \end{block}
+
+  \begin{block}{Focus on \structure{states}}
+  ~\\[-1mm]
+  \splittwo{0.2}{0.6}{
+    \begin{tikzpicture}[aut]
+      \node (q2) {$q_2^{\structure{q}}$};
+      \node[xshift=30mm] (q3) {$q_3^{\structure{p,q}}$};
+      \node[xshift=15mm,yshift=10mm,initial above] (q1){$q_1^{\structure{p}}$};
+      \path[->]
+        (q1) edge   (q2) edge (q3)
+        (q2) edge (q3)
+        (q3) edge[loop right] ();
+    \end{tikzpicture}
+  }{
+    \begin{itemize}
+      \item reachable/forbidden states
+      \item Language/Diagram to generate models
+      \item $\mathcal{M},q_1\models \structure{p}$ , $\mathcal{M},q_1\models F~G~\structure{p}$
+    \end{itemize}
+  }
+  \end{block}    
+\end{frame}
+
+\begin{frame}[t]\frametitle{Note 1/2: Models and logics are tightly connected}
+    \mycbox{\Large $\alert{\mathcal{M}},q_2 \models \structure{[a]\mi{false}}$}
+
+    \bigskip
+    \begin{itemize}
+      \item \alert{Models} that safisty exactly the same \structure{requirements}:
+      \\~~\textbf{equivalence} (e.g. bisimulation, trace equivalence)
+      \item \alert{Models} that satisfy a subset of \structure{requirements}:
+      \\~~\textbf{inclusion} (e.g. simulation, trace inclusion)
+      \item A \alert{model} should only capture the necessary to show its \structure{requirements}.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]\frametitle{Note 2/2: Chose your Model and Logic wisely}
+  \mycbox{\Large $\alert{\mathcal{M}},q_2 \models \structure{[a]\mi{false}}$}
+
+  \bigskip
+  \begin{itemize}
+    \item \textbf{Real-time:} how long it takes between actions
+    \item \textbf{Differential dynamic:} state evolves using differential equations
+    \item \textbf{Beliefs:} who knows what
+    \item \textbf{Deontic:} obrigatory and permitted actions
+    \item \textbf{Fuzzy:} other values instead of truth values
+    \item \textbf{Probabilistic:} the odds of something occuring
+    \item \emph{Many tools:} \alert{mCRL2}, \alert{UPPAAL}, Spin, NuSMV (NuXMV), TLA+, Maude, Storm, CPN (petri nets)
+  \end{itemize}
+\end{frame}
+
+\end{document}
