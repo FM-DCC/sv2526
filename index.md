@@ -37,6 +37,7 @@ Students should:
 # Lectures
 
 - __18 Sep '25__: Overview of the module and introduction to model checking (Slides [1-intro.pdf](slides/1-intro.pdf)). Starting to describe transition systems with functors (slides [2-behaviour](slides/2-behaviour.pdf), frames 1-6).
+- ...
 
 <!-- 
 - __24 Sep '24__: Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), frames 6-18).
@@ -75,6 +76,7 @@ Students should:
 
 1. [Introduction to the course](slides/1-intro.pdf)
 2. [Transition systems and CCS](slides/2-behaviour.pdf)
+3. TBD
 
 <!--
 3. [mCRL2 tool](slides/3-mcrl2.pdf)
