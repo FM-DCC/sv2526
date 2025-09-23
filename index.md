@@ -36,7 +36,10 @@ Students should:
 
 # Lectures
 
-- __18 Sep '25__: Overview of the module and introduction to model checking (Slides [1-intro.pdf](slides/1-intro.pdf)). Starting to describe transition systems with functors (slides [2-behaviour](slides/2-behaviour.pdf), frames 1-6).
+- __18 Sep '25__: Overview of the module and introduction to model checking (Slides [1-intro.pdf](slides/1-intro.pdf)). 
+Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), 1-11)
+- __25 Sep '25__: Syntax and semantics of CCS (slides [2-behaviour](slides/2-behaviour.pdf), 11-20).
+Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12).
 - ...
 
 <!-- 
@@ -76,11 +79,11 @@ Students should:
 
 1. [Introduction to the course](slides/1-intro.pdf)
 2. [Transition systems and CCS](slides/2-behaviour.pdf)
-3. TBD
-
-<!--
 3. [mCRL2 tool](slides/3-mcrl2.pdf)
 4. [Modal logic](slides/4-modal-logic.pdf)
+5. TBA
+
+<!--
 5. [Timed automata: modelling](slides/5-TA-modelling.pdf)
 6. [Timed automata: verifying](slides/6-TA-verification.pdf)
 7. [Stochastic Timed automata](slides/7-mchains.pdf)
