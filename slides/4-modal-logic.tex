@@ -375,15 +375,147 @@ A formula $\phi$ is
 \item \alert{satisfiable in a model}  $\ger{M}$ if it is satisfied at some point of $\ger{M}$
 \item \alert{globally satisfied} in $\ger{M}$ ($\ger{M} \models \phi$) if it is satisfied at all points in $\ger{M}$
 \item \alert{valid} ($\models \phi$) if it is globally satisfied in all models
-\item \alert{a semantic consequence} of a set of formulas $\Gamma$ ($\Gamma \models \phi$) if for all models $\ger{M}$ and all
-points $s$, if $\ger{M}, s \models \Gamma$ then $\ger{M}, s \models \phi$
+\item \alert{a semantic consequence} of a set of formulas $\Gamma$ ($\Gamma \models \phi$) if
+  for all models $\ger{M}$,
+          points $s$, and
+          formula $\gamma \in \Gamma$,
+  \\\centering if $\ger{M}, s \models \gamma$ then $\ger{M}, s \models \phi$
+  
 \end{itemize}
 \end{block}
 \end{slide}
 
 
 %----------------------------------------------------------------------------------
-\begin{slide}{Specific modal logic: Process logic}\label{s:17}
+\begin{slide}{Some Modal Logics -- Example I}\label{s:16}
+\small
+\begin{block}{$(P,<)$ a strict partial order with infimum $0$}
+I.e., $P=\{0, a, b, c, \ldots\}$,
+\\$a\to b$ means $a<b$,
+\\$a<b$ and $b<c$ implies $a<c$
+\\$0 < x$, for any $x\neq 0$
+\\there are no loops
+\\some elements may not be comparable
+\\[5mm]
+% Think about TIME/progress. 0 is minimal time (smallest time)
+% x 
+
+\begin{itemize}
+\item $\alert{P, x \models \always \false}\; \;$  if $x$ is a maximal element of $P$
+\item $\alert{P, 0 \models \eventual \always false}\; \;$  iff  ... %$P$ contains a maximal element (> 0)
+\item $\alert{P, 0 \models \always \eventual \always false}\; \;$  iff  ... %P={0} or (impossible: any larger number has a larger maximal)
+\end{itemize}
+\end{block}
+\end{slide}
+
+
+
+
+
+%----------------------------------------------------------------------------------
+\begin{slide}{Some Modal Logics -- Example II}\label{s:18}
+\small
+\begin{block}{Temporal logic}
+\begin{itemize}
+\item $\pair{T, <}$ where $T$ is a set of time points (instants, execution states , ...) and $<$ is the \alert{earlier than} relation on $T$.
+\item Thus, $\always \varphi$ (respectively, $\eventual \varphi$) means that $\varphi$ holds in all (respectively, some)  time points.
+%\item \alert{origin}: Arthur Prior, an attempt to \emph{deal with temporal information from the inside, capturing the situated nature of our experience and the context-dependent way we talk about it} 
+\end{itemize}
+\end{block}
+\end{slide}
+
+%----------------------------------------------------------------------------------
+% \begin{slide}{Examples III}\label{s:18a}
+% \small
+
+% \begin{block}{$\pair{T,<}$}
+% The structure of time is a \structure{strict partial order} \\ (i.e., a transitive and asymmetric relation)
+% \vspace{0.3cm}
+
+% \noindent
+% For any such structure, a new modality, $\nexts$, can be defined based on the \alert{cover} relation \alert{$\lessdot$} for $<$ 
+% %(\ie, the smallest relation whose transitive closure is $<$).
+% (\ie, $x\alert{\lessdot} y$ if (1) every $x<y$ and (2) there is no $z$ such that $x<z<y$).
+% Thus,
+% \begin{align*}
+% t  \models \nexts \phi &\text{ ~~~~~~~~ \textsf{iff} ~~~} 
+% \universal{t' \in \setdef{p'}{t \alert{\lessdot} t' }}{t' \models \phi} \\ &\\
+% t  \models \always \phi &\text{ ~~~~~~~~ \textsf{iff} ~~~} 
+% \universal{t' \in \setdef{p'}{t < t' }}{t' \models \phi} \\
+% t  \models \eventual \phi &\text{ ~~~~~~~~ \textsf{iff} ~~~} 
+% \existential{t' \in \setdef{p'}{t < t' }}{t' \models \phi} \\
+% \end{align*}
+% \end{block}
+
+% \end{slide}
+
+% %----------------------------------------------------------------------------------
+% \begin{slide}{Examples III}\label{s:18b}
+% \small
+
+% ... but typical structures, however, are 
+% % from the handybook of logics - temporal logics
+
+% \begin{block}{Linear time structures}
+% \begin{itemize}
+% \item \alert{linear}: $\rcb{\forall}{x,y}{x,y \in T}{x=y ~\lor~ x<y ~\lor~ y<x}$. % NOT branching
+% \item \alert{discrete}: linear and for each $t\in T$, \\
+% %i) if there is a $u>t$ there is a first such $u$; ii) if there is a $u<t$ there is a last such $u$.
+% $(\exists u \cdot u>t) ~\Rightarrow~ \exists u'>t$ without any $v$ s.t. $u'>v>t$ ~~~ (and its dual)
+% \item \alert{dense}: if for all $t,x \in T$, if $x<t$ there is a $v\in T$ such that $x<v<t$.
+% \item \alert{Dedekind complete}: if for all $S\subseteq T$ non-empty and bounded above, there is a least upper bound in $T$.
+% \item \alert{continuous}: if it is both dense and Dedekind complete
+% \end{itemize}
+% \end{block}
+% \end{slide}
+
+
+
+
+
+%----------------------------------------------------------------------------------
+\begin{slide}{Some Modal Logics -- Example III}\label{s:19}
+\small
+\begin{block}{Epistemic logic (J. Hintikka, 1962)}
+\begin{itemize}
+\item $W$ is a set of agents 
+\item $\alpha \models \alm{K_i}~\phi$ means that agent $i$ always knows that $\phi$ is true.
+\item $\alpha \models \evm{K_i}~\phi$ means that agent $i$ can reach a state where he knows $\phi$.
+\item $\alpha \models (\lnot \alm{K_i}~\phi) \land (\lnot \alm{K_i}~\lnot \phi)$ means that agent $i$ does not know whether $\phi$ is true or not.
+% \item $\alpha \models i$ means $i$ is the current knowledge of agent $i$
+% \item $\alpha \models \always j$ means the agent knows that $j$ (in the sense that at each alternative epistemic situation information $j$ is known) 
+% \item $\alpha \models \eventual j$ means the agent knows that  knowledge $j$ is consistent with what the agent knows (is an epistemically acceptable alternative)
+\end{itemize}
+\end{block}
+
+Many variations exist, modelling \structure{knowledge} and \structure{believes}, knowledge of \structure{who knows what}, \structure{distributed} knowledge, etc.
+
+\end{slide}
+
+
+\begin{slide}{Some Modal Logics -- Example IV}\label{s:20}
+\small
+\begin{block}{Deontic logic (G.H. von Wright, 1951)}
+\begin{itemize}
+\item Obligations and permissions: \alert{must} and \structure{can} do.
+\item $\alpha \models \always~\phi$ means $\phi$ is obligatory.
+\item $\alpha \models \eventual~\phi$ means $\phi$ is a possibility.
+% \item $\alpha \models i$ means $i$ is the current knowledge of agent $i$
+% \item $\alpha \models \always j$ means the agent knows that $j$ (in the sense that at each alternative epistemic situation information $j$ is known) 
+% \item $\alpha \models \eventual j$ means the agent knows that  knowledge $j$ is consistent with what the agent knows (is an epistemically acceptable alternative)
+\end{itemize}
+\end{block}
+
+Each logic accepts a different set of \emph{principles} or \emph{rules} (with variations), that makes their interpretation different.
+
+\end{slide}
+
+
+
+
+
+%----------------------------------------------------------------------------------
+\begin{slide}{Modal logic for processes: Process logic}\label{s:17}
 \small
 \begin{block}{Process logic (\alert{Hennessy-Milner logic})}
 \begin{itemize}
@@ -462,7 +594,7 @@ p & \models \alm{K}{\phi} \text{~~~~~~~~~~ \textsf{iff} ~~~}
 % \end{slide}
 
 
-\begin{slide}{Specific modal logic: Process logic}
+\begin{slide}{Modal logic for processes: Process logic}
 \small
 
 \begin{block}{Process Logic Syntax (Hennessy-Milner Logic)}
@@ -616,130 +748,6 @@ where $\alert{K := a\in Act~~|~~K+K}$
 % \end{block}
 % \end{slide}
 
-
-%----------------------------------------------------------------------------------
-\begin{slide}{Other Modal Logics -- Example II}\label{s:16}
-\small
-\begin{block}{$(P,<)$ a strict partial order with infimum $0$}
-I.e., $P=\{0, a, b, c, \ldots\}$,
-\\$a\to b$ means $a<b$,
-\\$a<b$ and $b<c$ implies $a<c$
-\\$0 < x$, for any $x\neq 0$
-\\there are no loops
-\\some elements may not be comparable
-\\[5mm]
-% Think about TIME/progress. 0 is minimal time (smallest time)
-% x 
-
-\begin{itemize}
-\item $\alert{P, x \models \always \false}\; \;$  if $x$ is a maximal element of $P$
-\item $\alert{P, 0 \models \eventual \always false}\; \;$  iff  ... %$P$ contains a maximal element (> 0)
-\item $\alert{P, 0 \models \always \eventual \always false}\; \;$  iff  ... %P={0} or (impossible: any larger number has a larger maximal)
-\end{itemize}
-\end{block}
-\end{slide}
-
-
-
-
-
-%----------------------------------------------------------------------------------
-\begin{slide}{Other Modal Logics -- Example III}\label{s:18}
-\small
-\begin{block}{Temporal logic}
-\begin{itemize}
-\item $\pair{T, <}$ where $T$ is a set of time points (instants, execution states , ...) and $<$ is the \alert{earlier than} relation on $T$.
-\item Thus, $\always \varphi$ (respectively, $\eventual \varphi$) means that $\varphi$ holds in all (respectively, some)  time points.
-%\item \alert{origin}: Arthur Prior, an attempt to \emph{deal with temporal information from the inside, capturing the situated nature of our experience and the context-dependent way we talk about it} 
-\end{itemize}
-\end{block}
-\end{slide}
-
-%----------------------------------------------------------------------------------
-% \begin{slide}{Examples III}\label{s:18a}
-% \small
-
-% \begin{block}{$\pair{T,<}$}
-% The structure of time is a \structure{strict partial order} \\ (i.e., a transitive and asymmetric relation)
-% \vspace{0.3cm}
-
-% \noindent
-% For any such structure, a new modality, $\nexts$, can be defined based on the \alert{cover} relation \alert{$\lessdot$} for $<$ 
-% %(\ie, the smallest relation whose transitive closure is $<$).
-% (\ie, $x\alert{\lessdot} y$ if (1) every $x<y$ and (2) there is no $z$ such that $x<z<y$).
-% Thus,
-% \begin{align*}
-% t  \models \nexts \phi &\text{ ~~~~~~~~ \textsf{iff} ~~~} 
-% \universal{t' \in \setdef{p'}{t \alert{\lessdot} t' }}{t' \models \phi} \\ &\\
-% t  \models \always \phi &\text{ ~~~~~~~~ \textsf{iff} ~~~} 
-% \universal{t' \in \setdef{p'}{t < t' }}{t' \models \phi} \\
-% t  \models \eventual \phi &\text{ ~~~~~~~~ \textsf{iff} ~~~} 
-% \existential{t' \in \setdef{p'}{t < t' }}{t' \models \phi} \\
-% \end{align*}
-% \end{block}
-
-% \end{slide}
-
-% %----------------------------------------------------------------------------------
-% \begin{slide}{Examples III}\label{s:18b}
-% \small
-
-% ... but typical structures, however, are 
-% % from the handybook of logics - temporal logics
-
-% \begin{block}{Linear time structures}
-% \begin{itemize}
-% \item \alert{linear}: $\rcb{\forall}{x,y}{x,y \in T}{x=y ~\lor~ x<y ~\lor~ y<x}$. % NOT branching
-% \item \alert{discrete}: linear and for each $t\in T$, \\
-% %i) if there is a $u>t$ there is a first such $u$; ii) if there is a $u<t$ there is a last such $u$.
-% $(\exists u \cdot u>t) ~\Rightarrow~ \exists u'>t$ without any $v$ s.t. $u'>v>t$ ~~~ (and its dual)
-% \item \alert{dense}: if for all $t,x \in T$, if $x<t$ there is a $v\in T$ such that $x<v<t$.
-% \item \alert{Dedekind complete}: if for all $S\subseteq T$ non-empty and bounded above, there is a least upper bound in $T$.
-% \item \alert{continuous}: if it is both dense and Dedekind complete
-% \end{itemize}
-% \end{block}
-% \end{slide}
-
-
-
-
-
-%----------------------------------------------------------------------------------
-\begin{slide}{Other Modal Logics -- Example IV}\label{s:19}
-\small
-\begin{block}{Epistemic logic (J. Hintikka, 1962)}
-\begin{itemize}
-\item $W$ is a set of agents 
-\item $\alpha \models \alm{K_i}~\phi$ means that agent $i$ always knows that $\phi$ is true.
-\item $\alpha \models \evm{K_i}~\phi$ means that agent $i$ can reach a state where he knows $\phi$.
-\item $\alpha \models (\lnot \alm{K_i}~\phi) \land (\lnot \alm{K_i}~\lnot \phi)$ means that agent $i$ does not know whether $\phi$ is true or not.
-% \item $\alpha \models i$ means $i$ is the current knowledge of agent $i$
-% \item $\alpha \models \always j$ means the agent knows that $j$ (in the sense that at each alternative epistemic situation information $j$ is known) 
-% \item $\alpha \models \eventual j$ means the agent knows that  knowledge $j$ is consistent with what the agent knows (is an epistemically acceptable alternative)
-\end{itemize}
-\end{block}
-
-Many variations exist, modelling \structure{knowledge} and \structure{believes}, knowledge of \structure{who knows what}, \structure{distributed} knowledge, etc.
-
-\end{slide}
-
-
-\begin{slide}{Other Modal Logics -- Example V}\label{s:20}
-\small
-\begin{block}{Deontic logic (G.H. von Wright, 1951)}
-\begin{itemize}
-\item Obligations and permissions: \alert{must} and \structure{can} do.
-\item $\alpha \models \always~\phi$ means $\phi$ is obligatory.
-\item $\alpha \models \eventual~\phi$ means $\phi$ is a possibility.
-% \item $\alpha \models i$ means $i$ is the current knowledge of agent $i$
-% \item $\alpha \models \always j$ means the agent knows that $j$ (in the sense that at each alternative epistemic situation information $j$ is known) 
-% \item $\alpha \models \eventual j$ means the agent knows that  knowledge $j$ is consistent with what the agent knows (is an epistemically acceptable alternative)
-\end{itemize}
-\end{block}
-
-Each logic accepts a different set of \emph{principles} or \emph{rules} (with variations), that makes their interpretation different.
-
-\end{slide}
 
 
 

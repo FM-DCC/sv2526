@@ -39,8 +39,9 @@ Students should:
 - __18 Sep '25__: Overview of the module and introduction to model checking (Slides [1-intro.pdf](slides/1-intro.pdf)). 
 Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), 1-11)
 - __25 Sep '25__: Syntax and semantics of CCS (slides [2-behaviour](slides/2-behaviour.pdf), 11-20).
-Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12).
-- ...
+Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tutorial "hands-on" with mCRL2.
+- __2 Oct '25__: No lesson due to an ongoing scientific event.
+- __9 Oct '25__:
 
 <!-- 
 - __24 Sep '24__: Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), frames 6-18).
@@ -96,13 +97,14 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12).
 - [Principles of model checking.](http://catalogo.up.pt/F/-?func=find-b&local_base=FCUP&find_code=SYS&request=000288620), _Christel Baier and Joost-Pieter Katoen_; ISBN: 978-0-262-02649-9
 
 
-<!-- 
+ 
 ### Extra material
 
 - [mCRL2 tutorial](exercises/adventurers/adventurers-tutorial-mcrl2.zip)
 - [1st assignment on mCRL2](exercises/mcrl2-assignment.pdf)
-- [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf)
--->
+
+<!-- - [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) -->
+
 
 ### Complementary Bibliography
 
