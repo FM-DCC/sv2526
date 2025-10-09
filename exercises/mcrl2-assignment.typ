@@ -182,5 +182,5 @@ The report in PDF *and* the respective mCRL2 models. Send by email
 your student numbers. The subject of the email should be *"`[SV] mCRL2 assignment`"*.
 
 *Deadline:*
-31 Oct 2025 \@ 23h59
+7 Nov 2025 \@ 23h59
 ]

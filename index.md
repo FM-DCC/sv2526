@@ -41,7 +41,7 @@ Transition systems with functors; syntax of sequential process algebra (slides [
 - __25 Sep '25__: Syntax and semantics of CCS (slides [2-behaviour](slides/2-behaviour.pdf), 11-20).
 Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tutorial "hands-on" with mCRL2.
 - __2 Oct '25__: No lesson due to an ongoing scientific event.
-- __9 Oct '25__:
+- __9 Oct '25__: Continuing the tutorial "hands-on" with mCRL2. Equivalence of transition systems (slides [2-behaviour](slides/2-behaviour.pdf), frames 13-38).
 
 <!-- 
 - __24 Sep '24__: Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), frames 6-18).
@@ -100,7 +100,7 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
  
 ### Extra material
 
-- [mCRL2 tutorial](exercises/adventurers/adventurers-tutorial-mcrl2.zip)
+- [mCRL2 tutorial exercises](exercises/adventurers/adventurers-tutorial-mcrl2.zip)
 - [1st assignment on mCRL2](exercises/mcrl2-assignment.pdf)
 
 <!-- - [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) -->
@@ -108,7 +108,7 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 
 ### Complementary Bibliography
 
-- [mCRL2 Tutorial](https://www.mcrl2.org/web/user_manual/tutorial/tutorial.html), available from Uppaal's website
+- [mCRL2 Tutorial](https://www.mcrl2.org/web/user_manual/tutorial/tutorial.html), available from mCRL2's website
 - [Uppaal SMC Tutorial](https://uppaal.org/texts/uppaal-smc-tutorial.pdf), available from Uppaal's website
 
 
