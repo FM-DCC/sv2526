@@ -42,6 +42,7 @@ Transition systems with functors; syntax of sequential process algebra (slides [
 Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tutorial "hands-on" with mCRL2.
 - __2 Oct '25__: No lesson due to an ongoing scientific event.
 - __9 Oct '25__: Continuing the tutorial "hands-on" with mCRL2. Equivalence of transition systems (slides [2-behaviour](slides/2-behaviour.pdf), frames 13-38).
+- __16 Oct '25__: Modal logics (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf). Exercises: specifying and explaining concrete formulas in process logic; (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 1-22).
 
 <!-- 
 - __24 Sep '24__: Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), frames 6-18).
