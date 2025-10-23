@@ -37,12 +37,14 @@ Students should:
 # Lectures
 
 - __18 Sep '25__: Overview of the module and introduction to model checking (Slides [1-intro.pdf](slides/1-intro.pdf)). 
-Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), 1-11)
+Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), frames 1-11)
 - __25 Sep '25__: Syntax and semantics of CCS (slides [2-behaviour](slides/2-behaviour.pdf), 11-20).
 Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tutorial "hands-on" with mCRL2.
 - __2 Oct '25__: No lesson due to an ongoing scientific event.
 - __9 Oct '25__: Continuing the tutorial "hands-on" with mCRL2. Equivalence of transition systems (slides [2-behaviour](slides/2-behaviour.pdf), frames 13-38).
 - __16 Oct '25__: Modal logics (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf). Exercises: specifying and explaining concrete formulas in process logic; (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 1-22).
+- __23 Oct '25__: More exercises on process logic; process logic with regular expressions (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 22-26). Modal logic in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf); Process logic vs. bisimulations (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 28-45).
+
 
 <!-- 
 - __24 Sep '24__: Transition systems with functors; syntax of sequential process algebra (slides [2-behaviour](slides/2-behaviour.pdf), frames 6-18).
