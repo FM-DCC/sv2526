@@ -117,7 +117,7 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 - [Uppaal SMC Tutorial](https://uppaal.org/texts/uppaal-smc-tutorial.pdf), available from Uppaal's website
 
 ### Previous years
-- [2024/2025](https://fm-dcc.github.io/sv2526/)
+- [2024/2025](https://fm-dcc.github.io/sv2425/)
 - [2023/2024](https://sigarra.up.pt/fcup/pt/UCURR_GERAL.FICHA_UC_VIEW?pv_ocorrencia_id=528080)
 
 <!-- 
