@@ -20,7 +20,7 @@ Students should:
 
 # Syllabus
 
-- Introdução ao model checking
+<!-- - Introdução ao model checking
 - Modelação de sistemas paralelos: sistemas transição
 - Paralelismo e comunicação com álgebras de processos
 - Equivalências de sistemas de transição
@@ -32,7 +32,21 @@ Students should:
 - Lógicas temporais: linear (LTL) e ramificada (CTL)
 - Ferramenta: Uppaal (verificação)
 - Introdução a modelos probabilísticos e estocásticos
-- Ferramenta: Uppaal (simulações e PLTL)
+- Ferramenta: Uppaal (simulações e PLTL) -->
+
+ - Introduction to model checking
+ - Modelling of parallel systems: transition systems
+ - Parallelism and communication with process algebra
+ - Equivalence of transition systems
+ - Tool: mCRL2 (modelling)
+ - Dynamic logics (and relation with equivalences)
+ - Tool: mCRL2 (verification)
+ - Real-Timed models
+ - Tool: Uppaal (modelling)
+ - Temporal logics: linear (LTL) and branching (CTL)
+ - Tool: Uppaal (verification)
+ - Introduction to probabilistic and stochastic models
+ - Tool: Uppaal (simulations an PLTL)
 
 # Lectures
 
