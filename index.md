@@ -87,10 +87,10 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 3. [mCRL2 tool](slides/3-mcrl2.pdf)
 4. [Modal logic](slides/4-modal-logic.pdf)
 5. [Timed automata: modelling](slides/5-TA-modelling.pdf)
-6. TBA
+6. [Timed automata: verifying](slides/6-TA-verification.pdf)
+7. TBA
 
 <!--
-6. [Timed automata: verifying](slides/6-TA-verification.pdf)
 7. [Stochastic Timed automata](slides/7-mchains.pdf)
 8. [EARS approach](slides/8-ears.pdf)
 9. [Hybrid programs with Lince](slides/9-lince.pdf)
@@ -106,6 +106,7 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 
 - [mCRL2 tutorial exercises](exercises/adventurers/adventurers-tutorial-mcrl2.zip)
 - [1st assignment on mCRL2](exercises/mcrl2-assignment.pdf) - deadline: 9 Nov. 2025
+- [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) - preliminary deadline: 4 Jan. 2026
 
 <!-- - [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) -->
 
