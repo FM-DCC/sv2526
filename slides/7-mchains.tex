@@ -213,11 +213,11 @@
 
 \begin{frame}[t]\frametitle{Reactive PTS}
   \centering
-  {\Large \alert{$\alpha: S \to (\Dist(S) + 1)^N$}}
+  {\Large \alert{$\alpha: S \to (\Dist(S) \structure{+ 1})^{\structure{N}}$}}
 
   \bigskip
 
-  \doExercise{Formalise the systems below as functions}{
+  \doExercise{Formalise the system below on the right as a function}{
   \centering
   \wrap{\begin{tikzpicture}[aut]
     \node[st,initial above,final]  (s_0) {$A_0$};
@@ -254,7 +254,7 @@
 
 \begin{frame}[t]\frametitle{Generative PTS}
   \centering
-  {\Large \structure{$\alpha: S \to \Dist((S\times N) + 1)$}}
+  {\Large \alert{$\alpha: S \to \Dist((S \structure{\times N}) + 1)$}}
 
   \bigskip
 
@@ -296,6 +296,74 @@
 
 
 
+\begin{frame}[t]\frametitle{Generative Timed PTS (as in Uppaal)}
+  \centering
+  \only<1>{{\Large \alert{$\alpha: S \to \Dist(S \times N) \structure{+ 1}$}}}
+  \pause
+  % {\large \alert{$\alpha: S \to \Dist_{disc}((S\times N) + 1)$}}\\
+  % {\Large \alert{$\alpha: S \to \Dist_{\structure{cont}}((S\times (N\structure{+\R_0^{+}}) + 1))$}}
+  \only<2->{
+    \textcolor{gray}{$\alpha: S \to \Dist(S \times N) + 1$}\\[2mm]
+    {\Large \alert{$\alpha: S \to (\Dist(S \times N) + 1) \times 
+                            \structure{\Dist_{cont}(\R_0^{+} \times S)}$}}
+  }
+  % \Pow(X)^{Act} \times (X+1)^{\R^{+}_0}
+
+
+  \bigskip
+
+  \splittwo{0.46}{0.52}{
+  \only<1>{\begin{alertblock}{Before (Gen PTS)}\centering
+    \wrap{\begin{tikzpicture}[aut]
+    \node[st,initial above,final]  (s_0) {$A_0$};
+    \node[st] (s_1) [above right of=s_0] {$A_1$};
+    \node[st] (s_2) [below right of=s_0] {$A_2$};
+    \path[->]
+      (s_0) edge  node {{a[0.4]}}  (s_1)
+      (s_0) edge  node {{b[0.2]}}  (s_2)
+      (s_1) edge  node {{b[0.3]}}  (s_2)
+      (s_0) edge[loop left] node {{a[0.4]}}  ()
+      (s_1) edge[loop right] node {{b[0.3]}}  (s_1);
+      % (s_2) edge[loop right] node {1}  (s_1);
+  \end{tikzpicture}}
+  \end{alertblock}}%
+  \only<2->{
+    \begin{block}{Notes}
+    \begin{itemize}
+      \item Continuous time: continuous distribution
+      \item Probabilities both at 
+      \begin{itemize}
+        \item \alert{discrete transitions} and
+        \item \structure{continuous delays}
+      \end{itemize}
+    \end{itemize}
+    \end{block}
+  }
+  }{
+  \doExercise{Now (Timed PTS) -- formalise it}{\centering
+    \wrap{\begin{tikzpicture}[aut]
+    \node[st,initial above,final]  (s_0) {$A_0$};
+    \node[st] (s_1) [above right of=s_0] {$A_1$};
+    \node[st] (s_2) [below right of=s_0] {$A_2$};
+    \node[st] (s_3) [below right of=s_1] {$A_3$};
+    \path[->]
+      (s_0) edge  node {\structure{$X_{unif(2,4)}\leq 4$}}  (s_1)
+      (s_0) edge  node {\alert{b[0.4]}}  (s_2)
+      (s_1) edge  node {\alert{b[1]}}  (s_2)
+      (s_0) edge[loop left] node {\alert{a[0.6]}}  ()
+      (s_1) edge[loop right] node {\structure{$Y_{unif(0,10)}\geq 2$}}  ()
+      (s_1) edge node[yshift=-3pt] {\structure{$Y_{unif(0,10)}<2$}}  (s_3);
+      % (s_2) edge[loop right] node {1}  (s_1);
+  \end{tikzpicture}}
+  
+  }
+  \exerciseBack
+  }
+
+\end{frame}
+\exerciseAdd
+
+
 
 \section{Probabilities in Uppaal}
 
@@ -319,11 +387,11 @@ where
 \begin{itemize}
 \item $L$ is a set of \structure{locations}, and $L_0 \subseteq L$ the set of \structure{initial} locations
 \item $Act$ is a set of \structure{actions} and $C$ a set of \structure{clocks}
-\item $Tr \subseteq L \times \cc{C} \times Act \times \pow{(C)} \times \alert{\N} \times L$ is the \structure{transition relation}
+\item $Tr \subseteq L \times (\cc{C} \alert{\cup \N}) \times Act \times \pow{(C)} \times L$ is the \structure{transition relation}
 \vspace*{-1mm}
-\begin{equation*}
-\ell_1\; \trans{g,a,U,\alert{w}}\;  \ell_2
-\end{equation*}
+\begin{align*}
+\ell_1\; \trans{g,a,U}\; \ell_2  && or && \ell_1\; \trans{\alert{w},a,U}\; \ell_2
+\end{align*}
 \vspace*{-1mm}
 denotes a transition from location $\ell_1$ to $\ell_2$, \structure{labelled} by $a$, enabled if \structure{guard} $g$
 is valid, which, when performed, \structure{resets} the set $U$ of \structure{clocks}, \alert{with a probability given by the weight~$w$}
@@ -346,15 +414,23 @@ where $\cc{C}$ denotes the  set of clock constraints over a set $C$ of clock var
     \begin{itemize}
       \item Probability of $\pair{A1_0,\overline{0}} \trans{0.5} \pair{A1_0,\overline{0.5}}$?
       % \pause
-      \item Probability of $\pair{A2_0,\overline{0}} \trans{0.5} \pair{A2_0,\overline{0.5}}$?
+      % \item Probability of $\pair{A2_0,\overline{0}} \trans{0.5} \pair{A2_0,\overline{0.5}}$?
+      % \pause
+      % \item Probability of $\pair{A3_0,\overline{0}} \trans{0.5} \pair{A3_0,\overline{0.5}}$?
       \pause
-      \item Probability of $\pair{A3_0,\overline{0}} \trans{0.5} \pair{A3_0,\overline{0.5}}$?
+      \item \alert<2>{Probability of reaching $A1_1$ within 1?}
       \pause
-      \item Probability of reaching $A1_1$?
-      \item Probability of reaching $A2_1$?
+      \item \alert<3>{Probability of reaching $A1_1$ within 5?}
       \pause
-      \item Probability of reaching $A3_{END}$ in less than 4.3?
-      \\ = ...
+      \item \alert<4>{Probability of reaching $A2_1$ (above) within 5?}
+      \pause
+      \item \alert<5>{Expected time to reach $A1_{1}$?}
+      \pause
+      \item \alert<5>{Expected time to reach $A3_{1}$ or $A3_{2}$?}
+      \pause
+      \item \alert<6>{Expected time to reach $A1_{END}$?}
+      \item \alert<6>{Expected time to reach $A2_{END}$?}
+      \item \alert<6>{Expected time to reach $A3_{END}$?}
     \end{itemize}
   }
 \end{frame}
@@ -407,58 +483,58 @@ where $\cc{C}$ denotes the  set of clock constraints over a set $C$ of clock var
 \end{frame}
 
 
-\begin{frame}[t]\frametitle{Generative Timed PTS}
-  \centering
-  {\large \alert{$\alpha: S \to \Dist_{disc}((S\times N) + 1)$}}\\
-  {\Large \structure{$\alpha: S \to \Dist_{cont}((S\times (N+\R_0^{+}) + 1))$}}
+% \begin{frame}[t]\frametitle{Generative Timed PTS}
+%   \centering
+%   {\large \alert{$\alpha: S \to \Dist_{disc}((S\times N) + 1)$}}\\
+%   {\Large \structure{$\alpha: S \to \Dist_{cont}((S\times (N+\R_0^{+}) + 1))$}}
 
 
-  \bigskip
+%   \bigskip
 
-  \splittwo{0.46}{0.52}{
-  \only<1>{\begin{alertblock}{Before (PTS)}\centering
-    \wrap{\begin{tikzpicture}[aut]
-    \node[st,initial above,final]  (s_0) {$A_0$};
-    \node[st] (s_1) [above right of=s_0] {$A_1$};
-    \node[st] (s_2) [below right of=s_0] {$A_2$};
-    \path[->]
-      (s_0) edge  node {{a[0.4]}}  (s_1)
-      (s_0) edge  node {{b[0.2]}}  (s_2)
-      (s_1) edge  node {{b[0.3]}}  (s_2)
-      (s_0) edge[loop left] node {{a[0.4]}}  ()
-      (s_1) edge[loop right] node {{b[0.3]}}  (s_1);
-      % (s_2) edge[loop right] node {1}  (s_1);
-  \end{tikzpicture}}
-  \end{alertblock}}%
-  \only<2->{
-    \begin{block}{Notes}
-    \begin{itemize}
-      \item Continuous time: continuous distribution
-      \item Probabilities both at continuous \alert{delays} and discrete \structure{transitions}.
-    \end{itemize}
-    \end{block}
-  }
-  }{
-  \doExercise{Now (Timed PTS) -- formalise it}{\centering
-    \wrap{\begin{tikzpicture}[aut]
-    \node[st,initial above,final]  (s_0) {$A_0$};
-    \node[st] (s_1) [above right of=s_0] {$A_1$};
-    \node[st] (s_2) [below right of=s_0] {$A_2$};
-    \path[->]
-      (s_0) edge  node {\alert{5[0.4]}}  (s_1)
-      (s_0) edge  node {\alert{b[0.2]}}  (s_2)
-      (s_1) edge  node {\structure{b[0.3]}}  (s_2)
-      (s_0) edge[loop left] node {\alert{a[0.4]}}  ()
-      (s_1) edge[loop right] node {\structure{10[0.3]}}  (s_1);
-      % (s_2) edge[loop right] node {1}  (s_1);
-  \end{tikzpicture}}
+%   \splittwo{0.46}{0.52}{
+%   \only<1>{\begin{alertblock}{Before (PTS)}\centering
+%     \wrap{\begin{tikzpicture}[aut]
+%     \node[st,initial above,final]  (s_0) {$A_0$};
+%     \node[st] (s_1) [above right of=s_0] {$A_1$};
+%     \node[st] (s_2) [below right of=s_0] {$A_2$};
+%     \path[->]
+%       (s_0) edge  node {{a[0.4]}}  (s_1)
+%       (s_0) edge  node {{b[0.2]}}  (s_2)
+%       (s_1) edge  node {{b[0.3]}}  (s_2)
+%       (s_0) edge[loop left] node {{a[0.4]}}  ()
+%       (s_1) edge[loop right] node {{b[0.3]}}  (s_1);
+%       % (s_2) edge[loop right] node {1}  (s_1);
+%   \end{tikzpicture}}
+%   \end{alertblock}}%
+%   \only<2->{
+%     \begin{block}{Notes}
+%     \begin{itemize}
+%       \item Continuous time: continuous distribution
+%       \item Probabilities both at continuous \alert{delays} and discrete \structure{transitions}.
+%     \end{itemize}
+%     \end{block}
+%   }
+%   }{
+%   \doExercise{Now (Timed PTS) -- formalise it}{\centering
+%     \wrap{\begin{tikzpicture}[aut]
+%     \node[st,initial above,final]  (s_0) {$A_0$};
+%     \node[st] (s_1) [above right of=s_0] {$A_1$};
+%     \node[st] (s_2) [below right of=s_0] {$A_2$};
+%     \path[->]
+%       (s_0) edge  node {\alert{5[0.4]}}  (s_1)
+%       (s_0) edge  node {\alert{b[0.2]}}  (s_2)
+%       (s_1) edge  node {\structure{b[0.3]}}  (s_2)
+%       (s_0) edge[loop left] node {\alert{a[0.4]}}  ()
+%       (s_1) edge[loop right] node {\structure{10[0.3]}}  (s_1);
+%       % (s_2) edge[loop right] node {1}  (s_1);
+%   \end{tikzpicture}}
   
-  }
-  \exerciseBack
-  }
+%   }
+%   \exerciseBack
+%   }
 
-\end{frame}
-\exerciseAdd
+% \end{frame}
+% \exerciseAdd
 
 
 

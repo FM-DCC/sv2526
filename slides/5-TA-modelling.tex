@@ -496,11 +496,16 @@ Process Languages &  & LTS (Labelled Transition Systems)\\
 ~\\
 \pause
 
-\begin{block}{Timed LTS}
+\begin{block}{Timed LTS --
+  \alert{ $X \mapsto \only<2>{~?}\only<3->{
+    %\Pow(X \times (Act + \R^{+}_0)))
+    \Pow(X)^{Act} \times (X+1)^{\R^{+}_0}
+  }$ }
+}
 Introduce \structure{delay transitions} to capture the passage of time within a LTS:
 \begin{align*}
 s \trans{a} s' & \;\; \text{for $a \in Act$, are ordinary transitions due to action occurrence }\\
-s \trans{d} s' &\; \;  \text{for $d \in R^{+}_0$, are \structure{delay} transitions}
+s \trans{d} s' &\; \;  \text{for $d \in \R^{+}_0$, are \structure{delay} transitions}
 \end{align*}
 subject to a number of constraints, eg, 
 \end{block}
