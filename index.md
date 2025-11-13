@@ -103,10 +103,10 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 4. [Modal logic](slides/4-modal-logic.pdf)
 5. [Timed automata: modelling](slides/5-TA-modelling.pdf)
 6. [Timed automata: verifying](slides/6-TA-verification.pdf)
-7. TBA
+7. [Stochastic Timed automata](slides/7-mchains.pdf)
+8. TBA
 
 <!--
-7. [Stochastic Timed automata](slides/7-mchains.pdf)
 8. [EARS approach](slides/8-ears.pdf)
 9. [Hybrid programs with Lince](slides/9-lince.pdf)
 -->
