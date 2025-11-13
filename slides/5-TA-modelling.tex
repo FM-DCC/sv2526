@@ -773,8 +773,8 @@ A \structure{timelock} represents a situation that causes time progress to halt 
   \uppbox[4.5cm]{Terminal}{./images/SwitchB} 
 \end{center}
 
-State $\pair{on,2}$ \only<1>{$\ldots$}\pause is reachable through path 
-$$\pair{off,0} \trans{s-on} \pair{on,0} \trans{2} \pair{on,2}$$
+State $\pair{on,\overline{2}}$ \only<1>{$\ldots$}\pause is reachable through path 
+$$\pair{off,\overline{0}} \trans{s-on} \pair{on,\overline{0}} \trans{2} \pair{on,\overline{2}}$$
 and is terminal
 
 \end{slide}
@@ -789,9 +789,9 @@ and is terminal
   \uppbox[4.5cm]{Timelock - NotTerminal}{./images/SwitchC} 
 \end{center}
 
-State $\pair{on,2}$ \only<1>{$\ldots$}\pause is not terminal but has a \structure{convergent} path:
+State $\pair{on,\overline{2}}$ \only<1>{$\ldots$}\pause is not terminal but has a \structure{convergent} path:
 
-$$\pair{on,2} \pair{on,2.9}  \pair{on,2.99}  \pair{on,2.999}  ...$$
+$$\pair{on,\overline{2}} \pair{on,\overline{2.9}}  \pair{on,\overline{2.99}}  \pair{on,\overline{2.999}}  ...$$
 
 \end{slide}
 
@@ -850,13 +850,13 @@ In doing so clock $x$ is reset to 0 and light stays $on$ for more 2 time units (
 \alert{Typical paths:}
 The user presses $in$ \alert{infinitely fast}:
 \begin{equation*}
-\pair{off,0}  \trans{in}  \pair{on,0}  \trans{in}  \pair{on,0}  \trans{in}  \pair{on,0}  \trans{in}  \pair{on,0}  \trans{in} \cdots
+\pair{off,\overline{0}}  \trans{in}  \pair{on,\overline{0}}  \trans{in}  \pair{on,\overline{0}}  \trans{in}  \pair{on,\overline{0}}  \trans{in}  \pair{on,\overline{0}}  \trans{in} \cdots
 \end{equation*}
 
 
 The user presses $in$ \alert{faster and faster}:
 \begin{equation*}
-\pair{off,0}  \trans{in}   \pair{on,0}  \trans{0.5} \pair{on,0.5} \trans{in} \pair{on,0} \trans{0.25}  \pair{on,0.25}   \trans{in} \pair{on,0}  \trans{0.125}  \cdots
+\pair{off,\overline{0}}  \trans{in}   \pair{on,\overline{0}}  \trans{0.5} \pair{on,\overline{0.5}} \trans{in} \pair{on,\overline{0}} \trans{0.25}  \pair{on,\overline{0.25}}   \trans{in} \pair{on,\overline{0}}  \trans{0.125}  \cdots
 \end{equation*}
 \end{block}
 
