@@ -59,7 +59,6 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 - __16 Oct '25__: Modal logics (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf). Exercises: specifying and explaining concrete formulas in process logic; (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 1-22).
 - __23 Oct '25__: More exercises on process logic; process logic with regular expressions (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 22-26). Modal logic in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf)); Process logic vs. bisimulations (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 28-33).
 - __6 Nov '25__: Frame definability (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 34-35); LTL and CTL as extensions to modal logic (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 36-40) - NO Hybrid logic. Timed automata: introduction, syntax, and composition (slides [5-TA-modelling.pdf](slides/5-TA-modelling.pdf), frames 1-18).
-
 - __13 Nov '25__: Timed automata and its composition, exercises; Semantics of Timed Automata, formally (slides [5-TA-modelling.pdf](slides/5-TA-modelling.pdf), frames 17-27). Timelocks and zeno paths (slides [5-TA-modelling.pdf](slides/5-TA-modelling.pdf), frames 28-40).
 
 
