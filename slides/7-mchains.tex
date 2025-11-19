@@ -57,7 +57,7 @@
 
 % \frame[plain]{\titlepage}
 
-\setLecture{6}{Probabilities: Markov chains and statistical model checking}
+\setLecture{6}{Probabilities: Probabilistic LTS and Statistical Model Checking}
 
 \frame[plain]{\titlepage}
 
@@ -211,7 +211,7 @@
     \end{tikzpicture}}
 \end{frame}
 
-\begin{frame}[t]\frametitle{Reactive PTS}
+\begin{frame}[t]\frametitle{Reactive PTS (or Markov Decision Process)}
   \centering
   {\Large \alert{$\alpha: S \to (\Dist(S) \structure{+ 1})^{\structure{N}}$}}
 
@@ -254,7 +254,7 @@
 
 \begin{frame}[t]\frametitle{Generative PTS}
   \centering
-  {\Large \alert{$\alpha: S \to \Dist((S \structure{\times N}) + 1)$}}
+  {\Large \alert{$\alpha: S \to \Dist(S \structure{\times N}) + 1$}}
 
   \bigskip
 
@@ -283,7 +283,7 @@
     \path[->]
       (s_0) edge  node {\alert{a[0.4]}}  (s_1)
       (s_0) edge  node {\alert{b[0.2]}}  (s_2)
-      (s_1) edge  node {\structure{b[0.3]}}  (s_2)
+      (s_1) edge  node {\structure{b[0.7]}}  (s_2)
       (s_0) edge[loop left] node {\alert{a[0.4]}}  ()
       (s_1) edge[loop right] node {\structure{b[0.3]}}  (s_1);
       % (s_2) edge[loop right] node {1}  (s_1);
@@ -296,7 +296,7 @@
 
 
 
-\begin{frame}[t]\frametitle{Generative Timed PTS (as in Uppaal)}
+\begin{frame}[t]\frametitle{Generative \alert{Timed} PTS (as in Uppaal)}
   \centering
   \only<1>{{\Large \alert{$\alpha: S \to \Dist(S \times N) \structure{+ 1}$}}}
   \pause
@@ -304,7 +304,7 @@
   % {\Large \alert{$\alpha: S \to \Dist_{\structure{cont}}((S\times (N\structure{+\R_0^{+}}) + 1))$}}
   \only<2->{
     \textcolor{gray}{$\alpha: S \to \Dist(S \times N) + 1$}\\[2mm]
-    {\Large \alert{$\alpha: S \to (\Dist(S \times N) + 1) \times 
+    {\Large \alert{$\alpha: S \to \Dist(S \times N) + 
                             \structure{\Dist_{cont}(\R_0^{+} \times S)}$}}
   }
   % \Pow(X)^{Act} \times (X+1)^{\R^{+}_0}
@@ -345,14 +345,15 @@
     \node[st,initial above,final]  (s_0) {$A_0$};
     \node[st] (s_1) [above right of=s_0] {$A_1$};
     \node[st] (s_2) [below right of=s_0] {$A_2$};
-    \node[st] (s_3) [below right of=s_1] {$A_3$};
+    \node[st] (s_3) [below right of=s_1,xshift=15mm] {$A_3$};
     \path[->]
-      (s_0) edge  node {\structure{$X_{unif(2,4)}\leq 4$}}  (s_1)
-      (s_0) edge  node {\alert{b[0.4]}}  (s_2)
-      (s_1) edge  node {\alert{b[1]}}  (s_2)
+      (s_0) edge  node {\alert{b[0.3]}} (s_1) %{\structure{$X_{unif(2,4)}\leq 4$}}  (s_1)
+      (s_0) edge  node {\alert{b[0.1]}}  (s_2)
+      (s_1) edge  node {\structure{$X_{unif(0,10)}\leq 2$}}  (s_2)
       (s_0) edge[loop left] node {\alert{a[0.6]}}  ()
-      (s_1) edge[loop right] node {\structure{$Y_{unif(0,10)}\geq 2$}}  ()
-      (s_1) edge node[yshift=-3pt] {\structure{$Y_{unif(0,10)}<2$}}  (s_3);
+      (s_1) edge[loop right] node {\structure{$2<X_{unif(0,10)}\leq 5$}}  ()
+      (s_1) edge node[yshift=-3pt] {\structure{$5<X_{unif(0,10)}$}}  (s_3)
+      (s_3) edge node {\alert{a[1]}} (s_2);
       % (s_2) edge[loop right] node {1}  (s_1);
   \end{tikzpicture}}
   
