@@ -668,14 +668,14 @@ This result is a theoretical limit (proved by Lynch and Shavit in 1992) which co
 \begin{slide}{Fisher's algorithm}
 \small
 
-\begin{block}{The algorithm}
+\begin{block}{The behaviour of each agent $pid$}
 \begin{align*}
 \mathsf{repeat} & \\
 & \mathsf{repeat}  \\
 &  \hspace{1cm} \mathsf{await} \; id = 0\\
-& \hspace{1cm} id := i\\
+& \hspace{1cm} id := pid\\
 & \hspace{1cm}  \mathsf{delay}(k)\\ 
-& \mathsf{until}\; id=i  \\
+& \mathsf{until}\; id=pid  \\
 & \text{\emph{(critical section)}}\\
 & id := 0\\
 \mathsf{forever} &
@@ -716,7 +716,7 @@ This result is a theoretical limit (proved by Lynch and Shavit in 1992) which co
 \item One shared read/write register (the variable $id$)
 \item Behaviour depends crucially on the value for $k$ --- the \structure{time delay}
 \item Constant $k$ should be \alert{larger than the longest time that a process may take to perform a step while trying to get access to its critical section} 
-\item This choice guarantees that whenever process $i$ finds $id = i$ on testing the loop guard it can enter safely ist critical section: \alert{all} other processes are out of the loop or with their index in $id$ overwritten by $i$.
+\item This choice guarantees that whenever process $pid$ finds $id = pid$ on testing the loop guard it can enter safely its critical section: \alert{all} other processes are out of the loop or with their index in $id$ overwritten by $pid$.
 \end{itemize}
 \end{block}
 \end{slide}
@@ -769,13 +769,13 @@ $x \geq k$ in the transition leading to $cs$ compromises both \alert{mutual excl
 \begin{slide}{Lamport's algorithm}
 \small
 
-\begin{block}{The algorithm}
+\begin{block}{The behaviour of each agent $pid$}
 \begin{align*}
-\mathsf{start}: \; \;  &  a := i\\
+\mathsf{start}: \; \;  &  a := pid\\
 & \mathsf{if}\; b \neq 0\; \mathsf{then\; goto\; start}\\
-& b := i \\
-& \mathsf{if}\; a \neq i\; \mathsf{then\; delay}(k)\\
-& \hspace{12mm} \mathsf{else} \; \mathsf{if}\; b \neq i\; \mathsf{then\; goto\; start}\\
+& b := pid \\
+& \mathsf{if}\; a \neq pid\; \mathsf{then\; delay}(k)\\
+& \hspace{12mm} \mathsf{else} \; \mathsf{if}\; b \neq pid\; \mathsf{then\; goto\; start}\\
 & \text{\emph{(critical section)}}\\
 & b := 0
 \end{align*}
