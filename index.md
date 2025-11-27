@@ -60,6 +60,8 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 - __23 Oct '25__: More exercises on process logic; process logic with regular expressions (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 22-26). Modal logic in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf)); Process logic vs. bisimulations (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 28-33).
 - __6 Nov '25__: Frame definability (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 34-35); LTL and CTL as extensions to modal logic (slides [4-modal-logic.pdf](slides/4-modal-logic.pdf), frames 36-40) - NO Hybrid logic. Timed automata: introduction, syntax, and composition (slides [5-TA-modelling.pdf](slides/5-TA-modelling.pdf), frames 1-18).
 - __13 Nov '25__: Timed automata and its composition, exercises; Semantics of Timed Automata, formally (slides [5-TA-modelling.pdf](slides/5-TA-modelling.pdf), frames 17-27). Timelocks and zeno paths (slides [5-TA-modelling.pdf](slides/5-TA-modelling.pdf), frames 28-40).
+- __20 Nov '25__: Modelling extensions in Uppaal (slides [5-TA-modelling.pdf](slides/5-TA-modelling.pdf), frames 41-48); Timed and untimed language equivalence of Timed Automata (slides [6-TA-verification.pdf](slides/6-TA-verification.pdf), frames 1-4); Timed and untimed bisimulations (slides [6-TA-verification.pdf](slides/6-TA-verification.pdf), frames 5-8); Introduction to CTL in Uppaal (slides [6-TA-verification.pdf](slides/6-TA-verification.pdf), frames 9-11).
+- __27 Nov '25__: CTL in Uppaal (slides [6-TA-verification.pdf](slides/6-TA-verification.pdf), frames 9-20); mutual exclusion examples in Uppaal (slides [6-TA-verification.pdf](slides/6-TA-verification.pdf), frames 21-32); Introduction to probabilistic transition systems (slides [7-mchains.pdf](slides/7-mchains.pdf), frames 1-4)
 
 
 <!-- 
@@ -121,7 +123,7 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 
 - [mCRL2 tutorial exercises](exercises/adventurers/adventurers-tutorial-mcrl2.zip)
 - [1st assignment on mCRL2](exercises/mcrl2-assignment.pdf) - deadline: 9 Nov. 2025
-- [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) - preliminary deadline: 4 Jan. 2026
+- [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) - preliminary deadline: 2 Jan. 2026 ~~4 Jan. 2026~~
 
 <!-- - [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) -->
 
