@@ -123,7 +123,7 @@ Modelling in mCRL2 (slides [3-mCRL2](slides/3-mcrl2.pdf), 1-12). Starting the tu
 
 - [mCRL2 tutorial exercises](exercises/adventurers/adventurers-tutorial-mcrl2.zip)
 - [1st assignment on mCRL2](exercises/mcrl2-assignment.pdf) - deadline: 9 Nov. 2025
-- [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) - preliminary deadline: 2 Jan. 2026 ~~4 Jan. 2026~~
+- [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) - deadline: 2 Jan. 2026 ~~4 Jan. 2026~~
 
 <!-- - [2nd assignment on Uppaal](exercises/uppaal-assignment.pdf) -->
 
