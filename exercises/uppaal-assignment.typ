@@ -256,5 +256,5 @@ The report in PDF *and* the respective #uppaal models. Send by email
 your student numbers. The subject of the email should be *"`[SV] UPPAAL assignment`"*.
 
 *Deadline:*
-4 Jan 2025 \@ 23h59
+2 Jan 2026 \@ 23h59
 ]
