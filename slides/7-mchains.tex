@@ -188,7 +188,7 @@
   \begin{exampleblock}{Examples}
   \begin{itemize}
         \item \alert{Dirac distribution}: $\mu^1_s = \{s \to 1\}$
-        \item \alert{Product distribution}: $(\mu_1 \times\mu_2)\pair{s,t} = \mu_1(s) \times \mu 2(t)$
+        \item \alert{Product distribution}: $(\mu_1 \times\mu_2)\pair{s,t} = \mu_1(s) \times \mu_2(t)$
   \end{itemize}    
   \end{exampleblock}
 \end{frame}
@@ -342,10 +342,10 @@
   }{
   \doExercise{Now (Timed PTS)}{\centering
     \wrap{\begin{tikzpicture}[aut]
-    \node[st,initial above,final]  (s_0) {$A_0$};
-    \node[st] (s_1) [above right of=s_0] {$A_1$};
-    \node[st] (s_2) [below right of=s_0] {$A_2$};
-    \node[st] (s_3) [below right of=s_1,xshift=15mm] {$A_3$};
+    \node[st,fill=orange!15,initial above,final]  (s_0) {$A_0$};
+    \node[st,fill=green!15] (s_1) [above right of=s_0] {$A_1$};
+    \node[st,fill=green!15] (s_2) [below right of=s_0] {$A_2$};
+    \node[st,fill=orange!15] (s_3) [below right of=s_1,xshift=15mm] {$A_3$};
     \path[->]
       (s_0) edge  node {\alert{b[0.3]}} (s_1) %{\structure{$X_{unif(2,4)}\leq 4$}}  (s_1)
       (s_0) edge  node {\alert{b[0.1]}}  (s_2)
@@ -427,11 +427,11 @@ where $\cc{C}$ denotes the  set of clock constraints over a set $C$ of clock var
       \pause
       \item \alert<5>{Expected time to reach $A1_{1}$?}
       \pause
-      \item \alert<5>{Expected time to reach $A3_{1}$ or $A3_{2}$?}
+      \item \alert<6>{Expected time to reach $A3_{1}$ or $A3_{2}$?}
       \pause
-      \item \alert<6>{Expected time to reach $A1_{END}$?}
-      \item \alert<6>{Expected time to reach $A2_{END}$?}
-      \item \alert<6>{Expected time to reach $A3_{END}$?}
+      \item \alert<7>{Expected time to reach $A1_{END}$?}
+      \item \alert<7>{Expected time to reach $A2_{END}$?}
+      \item \alert<7>{Expected time to reach $A3_{END}$?}
     \end{itemize}
   }
 \end{frame}

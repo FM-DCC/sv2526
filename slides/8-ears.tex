@@ -177,7 +177,7 @@
   {\bf Ubiquitous} \\\hline
   \earsu{<system>}{<response>} \\\hline 
   \textbf{State Driven} \\\hline
-  \earss{<pre(s)>}{<system>}{<action>} \\\hline
+  \earss{<pre(s)>}{<system>}{<response>} \\\hline
   \textbf{Event Driven} \\\hline
   \earse{<trigger>}{<system>}{<response>} \\\hline
   \textbf{Unwanted Behaviour} \\\hline
@@ -285,7 +285,7 @@
    \begin{block}{Simple translation exercise}
    \begin{description}
    \pause
-     \item [Original req:] \textit{In the event of a fire, the security system shall Unlock the fire escape doors}
+     \item [Original req:] \textit{In the event of a fire, the security system shall unlock the fire escape doors}
      \item [In EARS:] \pause \earse{\textit{a fire is detected}}{\textit{security system}}{\textit{unlock the fire escape doors}}
    \end{description}
    \end{block}
@@ -590,8 +590,9 @@ remaining}{system}{shall display a warning message to switch to AC power}
 
 
 \begin{slide}{Exercises}
+  \vspace*{-1mm}
   \doExercise{Rewrite using EARS patterns}{
-  \vspace*{-8mm}
+  \vspace*{-9mm}
   \begin{enumerate}
     \item The user can have \alert{tea} after having 2 consecutive \alert{coffees}.
     \item It is possible to do \alert{$a$} after 3 \alert{$b$}'s, but not more than 1 \alert{$a$}.
